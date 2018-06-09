@@ -1,7 +1,7 @@
-package com.theniceidea.autumn.demo.srv;
+package com.theniceidea.summer.demo.srv;
 
-import com.theniceidea.autumn.demo.model.TestModel;
-import com.theniceidea.autumn.srv.Manager;
+import com.theniceidea.summer.demo.model.TestModel;
+import com.theniceidea.summer.srv.Manager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -1,6 +1,6 @@
-package com.theniceidea.autumn.demo.model;
+package com.theniceidea.summer.demo.model;
 
-import com.theniceidea.autumn.srv.DataModel;
+import com.theniceidea.summer.srv.DataModel;
 
 public class TestModel extends DataModel{
     private String field;

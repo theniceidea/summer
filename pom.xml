@@ -9,8 +9,8 @@
         <version>2.0.0.RELEASE</version>
     </parent>
 
-	<groupId>com.theniceidea.autumn</groupId>
-	<artifactId>autumn-parent</artifactId>
+	<groupId>com.theniceidea.summer</groupId>
+	<artifactId>summer-parent</artifactId>
 	<version>1.0.0-RELEASE</version>
 	<packaging>pom</packaging>
     <modules>
@@ -27,7 +27,7 @@
 	<dependencyManagement>
 		<dependencies>
             <dependency>
-                <groupId>com.theniceidea.autumn</groupId>
+                <groupId>com.theniceidea.summer</groupId>
                 <artifactId>core</artifactId>
                 <version>1.0.0-RELEASE</version>
             </dependency>

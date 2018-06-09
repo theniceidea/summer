@@ -1,6 +1,6 @@
-package com.theniceidea.autumn.srv;
+package com.theniceidea.summer.srv;
 
-import com.theniceidea.autumn.base.ServiceItem;
+import com.theniceidea.summer.base.ServiceItem;
 
 import java.util.HashMap;
 

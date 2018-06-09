@@ -17,9 +17,9 @@
  *
  */
 
-package com.theniceidea.autumn.base;
+package com.theniceidea.summer.base;
 
-import com.theniceidea.autumn.config.AutumnDocumentationConfiguration;
+import com.theniceidea.summer.config.SummerDocumentationConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
@@ -29,6 +29,6 @@ import java.lang.annotation.Target;
 @Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(value = { java.lang.annotation.ElementType.TYPE })
 @Documented
-@Import({AutumnDocumentationConfiguration.class})
-public @interface EnableAutumn {
+@Import({SummerDocumentationConfiguration.class})
+public @interface EnableSummer {
 }

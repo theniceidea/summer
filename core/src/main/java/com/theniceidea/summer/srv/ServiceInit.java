@@ -1,4 +1,4 @@
-package com.theniceidea.autumn.srv;
+package com.theniceidea.summer.srv;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +10,6 @@ public class ServiceInit implements ApplicationContextAware{
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        applicationContext.getBeanNamesForAnnotation()
+//        applicationContext.getBeanNamesForAnnotation();
     }
 }

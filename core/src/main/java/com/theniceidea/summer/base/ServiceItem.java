@@ -1,6 +1,6 @@
-package com.theniceidea.autumn.base;
+package com.theniceidea.summer.base;
 
-import com.theniceidea.autumn.srv.DataModel;
+import com.theniceidea.summer.srv.DataModel;
 
 @FunctionalInterface
 public interface ServiceItem<T extends DataModel> {

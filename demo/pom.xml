@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.theniceidea.autumn</groupId>
-		<artifactId>autumn-parent</artifactId>
+		<groupId>com.theniceidea.summer</groupId>
+		<artifactId>summer-parent</artifactId>
 		<version>1.0.0-RELEASE</version>
 	</parent>
 	<artifactId>demo</artifactId>
@@ -21,7 +21,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.theniceidea.autumn</groupId>
+            <groupId>com.theniceidea.summer</groupId>
             <artifactId>core</artifactId>
         </dependency>
 

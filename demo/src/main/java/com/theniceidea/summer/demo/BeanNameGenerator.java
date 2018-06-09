@@ -1,4 +1,4 @@
-package com.theniceidea.autumn.demo;
+package com.theniceidea.summer.demo;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;

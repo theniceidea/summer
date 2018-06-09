@@ -1,4 +1,4 @@
-package com.theniceidea.autumn.srv;
+package com.theniceidea.summer.srv;
 
 public abstract class DataModel {
     private String serviceName;

@@ -17,7 +17,7 @@
  *
  */
 
-package com.theniceidea.autumn.base;
+package com.theniceidea.summer.base;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -26,5 +26,5 @@ import java.lang.annotation.Target;
 @Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(value = { java.lang.annotation.ElementType.TYPE })
 @Documented
-public @interface AutumnService {
+public @interface SummerService {
 }
