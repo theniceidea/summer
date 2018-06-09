@@ -16,6 +16,9 @@ public class Manager {
     public static <T extends DataModel> void registeService(Class<T> cls, ServiceItem<T> serviceItem){
         registeService(cls.getName(), serviceItem);
     }
+    public static void registeService(Class<?> cls, com.theniceidea.summer.srv.ServiceItem serviceItem){
+        registeService(cls.getName(), serviceItem);
+    }
     public static void removeService(String key){
         services.remove(key);
     }

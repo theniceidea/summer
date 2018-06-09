@@ -22,7 +22,7 @@ package com.theniceidea.summer.base;
 import java.lang.annotation.*;
 
 @Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.METHOD })
+@Target(value = { ElementType.TYPE })
 @Documented
-public @interface SummerService {
+public @interface SummerServiceClass {
 }
