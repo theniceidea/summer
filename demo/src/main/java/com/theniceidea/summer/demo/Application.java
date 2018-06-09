@@ -8,7 +8,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @ComponentScan(value = "com.theniceidea.summer.demo", nameGenerator = BeanNameGenerator.class)
 @SpringBootApplication
-@EnableSummer
+@EnableSummer()
 @EnableAspectJAutoProxy
 public class Application {
     public static void main(String[] args) {

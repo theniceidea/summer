@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.theniceidea.summer</groupId>
 		<artifactId>summer-parent</artifactId>
-		<version>1.0.0-RELEASE</version>
+		<version>${summer-version}</version>
 	</parent>
 	<artifactId>demo</artifactId>
 

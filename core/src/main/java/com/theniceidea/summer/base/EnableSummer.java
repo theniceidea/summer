@@ -31,4 +31,5 @@ import java.lang.annotation.Target;
 @Documented
 @Import({SummerDocumentationConfiguration.class})
 public @interface EnableSummer {
+    String[] excludePackages() default {};
 }
