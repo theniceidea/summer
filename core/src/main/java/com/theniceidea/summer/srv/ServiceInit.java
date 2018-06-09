@@ -28,13 +28,10 @@ public class ServiceInit implements ApplicationContextAware{
                 Class<?>[] types = method.getParameterTypes();
                 if(types.length != 1) continue;
                 map.put(types[0], method);
-
             }
             methods = targetClass.getMethods();
             for(int j=0; j<methods.length; j++){
                 Method method = methods[j];
-                Deprecated annotation = method.getAnnotation(Deprecated.class);
-                if(null != annotation) continue;
                 SummerService summerService = method.getAnnotation(SummerService.class);
                 if(null == summerService) continue;
                 Class<?>[] types = method.getParameterTypes();
