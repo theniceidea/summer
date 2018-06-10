@@ -1,10 +1,11 @@
 package com.theniceidea.summer.core.srv;
 
-import java.lang.reflect.Field;
+import java.util.HashMap;
 
 import static java.util.Objects.isNull;
 
 class Manager {
+    private static HashMap<Class<?>, ServiceItem> services = new HashMap<>();
     protected static <T extends AbsModel> void register(Class<T> cls, ServiceItem<T> serviceItem){
         reg(cls, serviceItem);
     }
@@ -12,16 +13,10 @@ class Manager {
         reg(cls, serviceItem);
     }
     private static void reg(Class<?> cls, Object serviceItem) {
-        try {
-            Field field = cls.getDeclaredField("target");
-            field.setAccessible(true);
-            field.set(null, serviceItem);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        services.put(cls, (ServiceItem) serviceItem);
     }
     protected static void callService(AbsModel dataModel){
-        ServiceItemImpl service = (ServiceItemImpl) dataModel.target();
+        ServiceItem service = services.get(dataModel.getClass());
         if(isNull(service)) {
             if(dataModel instanceof OptionalServiceModel) return;
             throw new RuntimeException("service " + dataModel.getClass()

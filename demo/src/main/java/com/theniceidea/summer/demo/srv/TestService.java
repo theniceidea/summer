@@ -1,9 +1,9 @@
-package com.theniceidea.summer.core.demovertx.srv;
+package com.theniceidea.summer.demo.srv;
 
 import com.alibaba.fastjson.JSON;
 import com.theniceidea.summer.core.base.SummerService;
 import com.theniceidea.summer.core.base.SummerServiceClass;
-import com.theniceidea.summer.core.demovertx.model.TestModel;
+import com.theniceidea.summer.demo.model.TestModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -23,6 +23,7 @@ public class TestService implements ApplicationRunner{
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+
         TestModel testModel = new TestModel();
         testModel.setField("0000000000000000000000000000");
         testModel.callService();

@@ -1,9 +1,7 @@
-package com.theniceidea.summer.core.demo.aop;
+package com.theniceidea.summer.demovertx.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
 
 //@Component
 //@Aspect

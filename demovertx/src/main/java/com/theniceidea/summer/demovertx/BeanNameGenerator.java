@@ -1,4 +1,4 @@
-package com.theniceidea.summer.core.demo;
+package com.theniceidea.summer.demovertx;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;

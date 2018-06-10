@@ -6,15 +6,9 @@ import com.theniceidea.summer.core.srv.Result;
 import io.vertx.ext.web.RoutingContext;
 
 public class RestSucessModel extends RestfullResultModel implements LocalModel {
-    private static Object target;
 
     private RoutingContext routingContext;
     private transient Result<Object> result;
-
-    @Override
-    protected Object target() {
-        return target;
-    }
 
     public RoutingContext getRoutingContext() {
         return routingContext;

@@ -4,8 +4,6 @@ public abstract class AbsModel {
 
     private transient Object context;
 
-    protected abstract Object target();
-
     public void callService(){
         Manager.callService(this);
     }

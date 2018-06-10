@@ -1,4 +1,4 @@
-package com.theniceidea.summer.core.demo.srv;
+package com.theniceidea.summer.demo.srv;
 
 import com.theniceidea.summer.core.base.ExcludeStrategy;
 import com.theniceidea.summer.core.base.ExcludeStrategyClass;
