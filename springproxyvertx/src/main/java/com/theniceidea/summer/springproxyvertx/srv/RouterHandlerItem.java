@@ -71,7 +71,7 @@ class RouterHandlerItem implements Handler<RoutingContext>{
             RestExceptionModel exceptionModel = model.inst(RestExceptionModel.class);
             exceptionModel.setRoutingContext(routingContext);
             exceptionModel.setException(e);
-            exceptionModel.callService();
+            if(!exceptionModel.callService()) throw new RuntimeException(e.getMessage(), e);
         }
     }
     private void writeBeanValue(String key, String value, RestfullResultModel model){

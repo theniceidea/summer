@@ -4,8 +4,8 @@ public abstract class AbsModel {
 
     private transient Object context;
 
-    public void callService(){
-        Manager.callService(this);
+    public boolean callService(){
+        return Manager.callService(this);
     }
 
     public <T extends AbsModel> T inst(Class<T> cls){

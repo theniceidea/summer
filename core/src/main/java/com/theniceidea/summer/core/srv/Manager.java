@@ -15,13 +15,14 @@ class Manager {
     private static void reg(Class<?> cls, Object serviceItem) {
         services.put(cls, (ServiceItem) serviceItem);
     }
-    protected static void callService(AbsModel dataModel){
+    protected static boolean callService(AbsModel dataModel){
         ServiceItem service = services.get(dataModel.getClass());
         if(isNull(service)) {
-            if(dataModel instanceof OptionalServiceModel) return;
+            if(dataModel instanceof OptionalServiceModel) return false;
             throw new RuntimeException("service " + dataModel.getClass()
                 .getName() + " not found");
         }
         service.callService(dataModel);
+        return true;
     }
 }
