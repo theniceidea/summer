@@ -1,8 +1,6 @@
 package com.theniceidea.summer.srv;
 
-import com.theniceidea.summer.base.EnableSummer;
-import com.theniceidea.summer.base.SummerService;
-import com.theniceidea.summer.base.SummerServiceClass;
+import com.theniceidea.summer.base.*;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -11,10 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 
@@ -24,6 +19,7 @@ class ServiceInit implements ApplicationContextAware{
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         Set<String> excludes = excludePackages(applicationContext);
+        List<ExcludeStrategy> strategyBeans = getStrategyBeans(applicationContext);
 
         String[] names = applicationContext.getBeanNamesForAnnotation(SummerServiceClass.class);
         for(int i=0; i<names.length; i++){
@@ -47,10 +43,28 @@ class ServiceInit implements ApplicationContextAware{
                 if(types.length != 1) continue;
                 Method method1 = map.get(types[0]);
                 if(null == method1) continue;
-                if(isExclude(excludes, types[0])) continue;
+                if(isExclude(excludes, targetClass)) continue;
+                if(isExclude(strategyBeans, targetClass, method.getName())) continue;
                 Manager.register(types[0], new ServiceItemImpl(bean, method1));
             }
         }
+    }
+    private List<ExcludeStrategy> getStrategyBeans(ApplicationContext applicationContext){
+        List<ExcludeStrategy> list = new ArrayList<>();
+        String[] names = applicationContext.getBeanNamesForAnnotation(ExcludeStrategyClass.class);
+        for(int i=0; i<names.length; i++) {
+            String beanName = names[i];
+            Object bean = applicationContext.getBean(beanName);
+            list.add((ExcludeStrategy) bean);
+        }
+        return list;
+    }
+    private boolean isExclude(List<ExcludeStrategy> strategies, Class<?> kls, String methodName){
+        if(isNull(strategies)) return false;
+        for(ExcludeStrategy strategy : strategies){
+            if(strategy.isExclude(kls, methodName)) return true;
+        }
+        return false;
     }
     private boolean isExclude(Set<String> excludes, Class<?> kls){
         String name = kls.getName();
@@ -59,6 +73,7 @@ class ServiceInit implements ApplicationContextAware{
         }
         return false;
     }
+
     private Set<String> excludePackages(ApplicationContext applicationContext){
         try {
             HashSet<String> set = new HashSet<>();

@@ -16,13 +16,14 @@
     <modules>
         <module>core</module>
         <module>demo</module>
+        <module>demovertx</module>
     </modules>
 
     <properties>
         <jdk-version>1.8</jdk-version>
         <maven.test.skip>true</maven.test.skip>
         <logback_maxHistory>365</logback_maxHistory>
-        <summer-version>1.0.2-RELEASE</summer-version>
+        <summer-version>1.0.3-RELEASE</summer-version>
     </properties>
 
     <dependencyManagement>
@@ -36,6 +37,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>1.2.47</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-core</artifactId>
+                <version>3.5.2</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
