@@ -3,6 +3,7 @@ package com.theniceidea.summer.demo.model;
 import com.theniceidea.summer.srv.DataModel;
 
 public class TestModel extends DataModel{
+    private static Object target;
     private String field;
 
     public static TestModel inst(){
@@ -15,5 +16,10 @@ public class TestModel extends DataModel{
 
     public void setField(String field) {
         this.field = field;
+    }
+
+    @Override
+    protected Object target() {
+        return target;
     }
 }

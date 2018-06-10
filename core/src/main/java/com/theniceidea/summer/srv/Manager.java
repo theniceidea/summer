@@ -1,30 +1,29 @@
 package com.theniceidea.summer.srv;
 
-import com.theniceidea.summer.base.ServiceItem;
-
-import java.util.HashMap;
+import java.lang.reflect.Field;
 
 import static java.util.Objects.isNull;
 
-public class Manager {
-    private static HashMap<String, ServiceItem> services = new HashMap<>();
-
-    public static <T extends DataModel> void registeService(String key, ServiceItem<T> serviceItem){
-        if(services.containsKey(key)) throw new RuntimeException("service "+key+" exists;");
-        services.put(key, serviceItem);
+class Manager {
+    protected static <T extends DataModel> void register(Class<T> cls, ServiceItem<T> serviceItem){
+        reg(cls, serviceItem);
     }
-    public static <T extends DataModel> void registeService(Class<T> cls, ServiceItem<T> serviceItem){
-        registeService(cls.getName(), serviceItem);
+    protected static void register(Class<?> cls, ServiceItemImpl serviceItem){
+        reg(cls, serviceItem);
     }
-    public static void registeService(Class<?> cls, com.theniceidea.summer.srv.ServiceItem serviceItem){
-        registeService(cls.getName(), serviceItem);
-    }
-    public static void removeService(String key){
-        services.remove(key);
+    private static void reg(Class<?> cls, Object serviceItem) {
+        try {
+            Field field = cls.getDeclaredField("target");
+            field.setAccessible(true);
+            field.set(null, serviceItem);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
     protected static void execService(DataModel dataModel){
-        ServiceItem serviceItem = services.get(dataModel.getServiceName());
-        if(isNull(serviceItem)) throw new RuntimeException("service "+dataModel.getServiceName()+" not found;");
-        serviceItem.callService(dataModel);
+        ServiceItemImpl service = (ServiceItemImpl) dataModel.target();
+        if(isNull(service))
+            throw new RuntimeException("service "+dataModel.getClass().getName()+" not found");
+        service.callService(dataModel);
     }
 }

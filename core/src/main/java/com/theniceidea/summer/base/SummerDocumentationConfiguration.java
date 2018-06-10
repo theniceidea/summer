@@ -1,4 +1,4 @@
-package com.theniceidea.summer.config;
+package com.theniceidea.summer.base;
 
 import org.springframework.context.annotation.ComponentScan;
 
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
     "com.theniceidea.summer.srv",
     "com.theniceidea.summer.config"
 })
-public class SummerDocumentationConfiguration {
+class SummerDocumentationConfiguration {
     public SummerDocumentationConfiguration(){
 
     }

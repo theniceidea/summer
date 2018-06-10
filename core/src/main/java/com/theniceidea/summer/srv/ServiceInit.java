@@ -19,7 +19,7 @@ import java.util.Set;
 import static java.util.Objects.isNull;
 
 @Component
-public class ServiceInit implements ApplicationContextAware{
+class ServiceInit implements ApplicationContextAware{
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -48,7 +48,7 @@ public class ServiceInit implements ApplicationContextAware{
                 Method method1 = map.get(types[0]);
                 if(null == method1) continue;
                 if(isExclude(excludes, types[0])) continue;
-                Manager.registeService(types[0], new ServiceItem(bean, method1));
+                Manager.register(types[0], new ServiceItemImpl(bean, method1));
             }
         }
     }

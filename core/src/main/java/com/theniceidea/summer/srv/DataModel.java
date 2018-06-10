@@ -1,20 +1,9 @@
 package com.theniceidea.summer.srv;
 
 public abstract class DataModel {
-    private String serviceName;
-    public DataModel(){
-        this.setServiceName(this.getClass().getName());
-    }
+    protected abstract Object target();
 
     public void exec(){
         Manager.execService(this);
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
     }
 }

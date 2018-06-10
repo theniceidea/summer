@@ -19,7 +19,6 @@
 
 package com.theniceidea.summer.base;
 
-import com.theniceidea.summer.config.SummerDocumentationConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
