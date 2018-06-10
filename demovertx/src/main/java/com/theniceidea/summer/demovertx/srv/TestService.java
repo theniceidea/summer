@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.theniceidea.summer.base.SummerService;
 import com.theniceidea.summer.base.SummerServiceClass;
 import com.theniceidea.summer.demovertx.model.TestModel;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -26,7 +25,7 @@ public class TestService implements ApplicationRunner{
     public void run(ApplicationArguments args) throws Exception {
         TestModel testModel = new TestModel();
         testModel.setField("0000000000000000000000000000");
-        testModel.exec();
+        testModel.callService();
         System.out.println(JSON.toJSONString(testModel));
     }
 }

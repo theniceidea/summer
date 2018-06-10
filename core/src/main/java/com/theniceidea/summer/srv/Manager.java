@@ -20,7 +20,7 @@ class Manager {
             throw new RuntimeException(e.getMessage(), e);
         }
     }
-    protected static void execService(DataModel dataModel){
+    protected static void callService(DataModel dataModel){
         ServiceItemImpl service = (ServiceItemImpl) dataModel.target();
         if(isNull(service))
             throw new RuntimeException("service "+dataModel.getClass().getName()+" not found");
