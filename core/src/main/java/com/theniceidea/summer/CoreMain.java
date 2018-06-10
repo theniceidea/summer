@@ -1,6 +1,6 @@
 package com.theniceidea.summer;
 
-public class Main {
+public class CoreMain {
     public static void main(String[] args){
 
     }
