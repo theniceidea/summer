@@ -1,6 +1,6 @@
 package com.theniceidea.summer.srv;
 
-public abstract class DataModel {
+public abstract class AbsModel {
     protected abstract Object target();
 
     public void callService(){

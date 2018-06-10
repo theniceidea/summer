@@ -1,8 +1,6 @@
 package com.theniceidea.summer.srv;
 
-import com.theniceidea.summer.srv.DataModel;
-
 @FunctionalInterface
-interface ServiceItem<T extends DataModel> {
+interface ServiceItem<T extends AbsModel> {
     void callService(T dataModel);
 }

@@ -16,9 +16,6 @@ public class TestService implements ApplicationRunner{
     @Autowired
     private TestService testService;
 
-    @Autowired
-    private ExcludeStrategyService excludeStrategyService;
-
     @SummerService
     public void task(TestModel model){
         System.out.println(model.getField());

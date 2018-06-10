@@ -12,7 +12,7 @@ class ServiceItemImpl implements ServiceItem{
     }
 
     @Override
-    public void callService(DataModel dataModel) {
+    public void callService(AbsModel dataModel) {
         try {
             this.method.invoke(target, dataModel);
         } catch (IllegalAccessException | InvocationTargetException e) {

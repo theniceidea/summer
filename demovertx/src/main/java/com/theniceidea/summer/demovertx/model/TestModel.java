@@ -1,8 +1,8 @@
 package com.theniceidea.summer.demovertx.model;
 
-import com.theniceidea.summer.srv.DataModel;
+import com.theniceidea.summer.srv.AbsModel;
 
-public class TestModel extends DataModel{
+public class TestModel extends AbsModel {
     private static Object target;
     private String field;
 
