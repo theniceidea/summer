@@ -24,7 +24,7 @@
         <jdk-version>1.8</jdk-version>
         <maven.test.skip>true</maven.test.skip>
         <logback_maxHistory>365</logback_maxHistory>
-        <summer-version>1.0.3-RELEASE</summer-version>
+        <summer-version>1.0.4-RELEASE</summer-version>
     </properties>
 
     <dependencyManagement>
