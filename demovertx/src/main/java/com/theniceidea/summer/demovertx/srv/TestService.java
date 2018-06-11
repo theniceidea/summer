@@ -23,9 +23,9 @@ public class TestService implements ApplicationRunner{
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        TestModel testModel = new TestModel();
-        testModel.setField("0000000000000000000000000000");
-        testModel.callService();
-        System.out.println(JSON.toJSONString(testModel));
+//        TestModel testModel = new TestModel();
+//        testModel.setField("0000000000000000000000000000");
+//        testModel.callService();
+//        System.out.println(JSON.toJSONString(testModel));
     }
 }

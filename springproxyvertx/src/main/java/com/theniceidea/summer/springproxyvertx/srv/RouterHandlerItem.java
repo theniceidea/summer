@@ -1,6 +1,7 @@
 package com.theniceidea.summer.springproxyvertx.srv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.theniceidea.summer.core.srv.RestfullResultModel;
 import com.theniceidea.summer.springproxyvertx.base.ConfigurationValueConverter;
 import com.theniceidea.summer.springproxyvertx.base.RestExceptionModel;
@@ -9,7 +10,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
-import org.springframework.beans.BeanUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.util.StringUtils;
 
 import java.beans.PropertyDescriptor;
@@ -75,11 +76,17 @@ class RouterHandlerItem implements Handler<RoutingContext>{
         }
     }
     private void writeBeanValue(String key, String value, RestfullResultModel model){
-        PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(modelClass, key);
-        if(isNull(descriptor)) return;
-        PropertyEditor editor = descriptor.createPropertyEditor(model);
-        Class<?> propertyType = descriptor.getPropertyType();
-        editor.setValue(ConfigurationValueConverter.fromString(value, propertyType));
+        try {
+            BeanUtils.setProperty(model, key, value);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            //这里不log了
+        }
+
+//        PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(modelClass, key);
+//        if(isNull(descriptor)) return;
+//        PropertyEditor editor = descriptor.createPropertyEditor(model);
+//        Class<?> propertyType = descriptor.getPropertyType();
+//        editor.setValue(ConfigurationValueConverter.fromString(value, propertyType));
     }
 
     public String getPath() {

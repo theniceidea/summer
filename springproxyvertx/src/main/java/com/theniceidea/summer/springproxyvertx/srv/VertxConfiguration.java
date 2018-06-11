@@ -10,17 +10,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class VertxConfiguration {
 
-    @Autowired
     private Vertx vertx;
 
     @Bean
     public Vertx vertx(){
-        return Vertx.vertx();
+        if(null == vertx) vertx = Vertx.vertx();
+        return vertx;
     }
     @Bean
     public Router route(){
-        Router router = Router.router(vertx);
-//        router.route().handler(BodyHandler.create());
+        Router router = Router.router(vertx());
+        router.route().handler(BodyHandler.create());
         return router;
     }
 }
