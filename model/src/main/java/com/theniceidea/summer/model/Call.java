@@ -7,7 +7,7 @@ import java.util.Objects;
 class Call {
     private static Method callServiceMethod;
 
-    static boolean call(AbsModel model)
+    static boolean call(SummerSum model)
         throws InvocationTargetException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException {
         if(null != callServiceMethod) return (boolean) callServiceMethod.invoke(null, model);
         synchronized (Call.class){

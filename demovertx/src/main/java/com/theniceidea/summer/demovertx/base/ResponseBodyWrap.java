@@ -2,7 +2,6 @@ package com.theniceidea.summer.demovertx.base;
 
 import com.theniceidea.summer.core.base.SummerService;
 import com.theniceidea.summer.core.base.SummerServiceClass;
-import com.theniceidea.summer.model.Result;
 import com.theniceidea.summer.springproxyvertx.base.RestSucessModel;
 import org.springframework.stereotype.Component;
 

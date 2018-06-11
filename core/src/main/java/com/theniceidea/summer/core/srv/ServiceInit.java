@@ -1,7 +1,7 @@
 package com.theniceidea.summer.core.srv;
 
 import com.theniceidea.summer.core.base.*;
-import com.theniceidea.summer.model.AbsModel;
+import com.theniceidea.summer.model.SummerSum;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Component
 class ServiceInit implements ApplicationContextAware{
@@ -22,12 +23,14 @@ class ServiceInit implements ApplicationContextAware{
         Set<String> excludes = excludePackages(applicationContext);
         List<ExcludeStrategy> strategyBeans = getStrategyBeans(applicationContext);
 
-        String[] names = applicationContext.getBeanNamesForAnnotation(SummerServiceClass.class);
+        String[] names = applicationContext.getBeanNamesForAnnotation(SummerService.class);
         for(int i=0; i<names.length; i++){
             String beanName = names[i];
             Object bean = applicationContext.getBean(beanName);
             Class<?> targetClass = AopUtils.getTargetClass(bean);
             if(targetClass.getName().contains("$$")) targetClass = targetClass.getSuperclass();
+            SummerService annotation = targetClass.getAnnotation(SummerService.class);
+            if(!annotation.value()) continue;
 
             HashMap<Class<?>, Method> map = getAopMethodsMap(bean);
 
@@ -37,9 +40,9 @@ class ServiceInit implements ApplicationContextAware{
                 if(!isSummerStandardMethod(method)) continue;
 
                 SummerService summerService = method.getAnnotation(SummerService.class);
-                if(null == summerService) continue;
+                if(nonNull(summerService) && !summerService.value()) continue;
                 Class<?>[] types = method.getParameterTypes();
-                if(types.length != 1) continue;
+//                if(types.length != 1) continue;
                 Method method1 = map.get(types[0]);
                 if(null == method1) continue;
                 if(isExclude(excludes, targetClass)) continue;
@@ -52,7 +55,7 @@ class ServiceInit implements ApplicationContextAware{
         Class<?>[] parameterTypes = method.getParameterTypes();
         if(isNull(parameterTypes) || parameterTypes.length != 1) return false;
         Class<?> parameterType = parameterTypes[0];
-        if(!AbsModel.class.isAssignableFrom(parameterType)) return false;
+        if(!SummerSum.class.isAssignableFrom(parameterType)) return false;
         return true;
     }
     private HashMap<Class<?>, Method> getAopMethodsMap(Object bean){
@@ -62,7 +65,7 @@ class ServiceInit implements ApplicationContextAware{
             Method method = methods[j];
             if(!isSummerStandardMethod(method)) continue;
             Class<?>[] types = method.getParameterTypes();
-            if(types.length != 1) continue;
+//            if(types.length != 1) continue;
             map.put(types[0], method);
         }
         return map;

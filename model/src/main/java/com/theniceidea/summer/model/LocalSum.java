@@ -1,4 +1,4 @@
 package com.theniceidea.summer.model;
 
-public interface OptionalServiceModel {
+public interface LocalSum {
 }

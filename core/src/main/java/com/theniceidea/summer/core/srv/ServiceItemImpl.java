@@ -1,6 +1,6 @@
 package com.theniceidea.summer.core.srv;
 
-import com.theniceidea.summer.model.AbsModel;
+import com.theniceidea.summer.model.SummerSum;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,7 +14,7 @@ class ServiceItemImpl implements ServiceItem{
     }
 
     @Override
-    public void callService(AbsModel dataModel) {
+    public void callService(SummerSum dataModel) {
         try {
             this.method.invoke(target, dataModel);
         } catch (IllegalAccessException | InvocationTargetException e) {

@@ -1,7 +1,7 @@
 package com.theniceidea.summer.springproxyvertx.srv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.theniceidea.summer.model.RestfullResultModel;
+import com.theniceidea.summer.model.SummerSum;
 import com.theniceidea.summer.springproxyvertx.base.RestExceptionModel;
 import com.theniceidea.summer.springproxyvertx.base.RestSucessModel;
 import io.vertx.core.Handler;
@@ -18,12 +18,14 @@ import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
+import static com.theniceidea.summer.core.srv.Summers.sum;
+
 class RouterHandlerItem implements Handler<RoutingContext>{
     private static ObjectMapper objectMapper = new ObjectMapper();
     private String path;
     private Object bean;
     private Method method;
-    private Class<? extends RestfullResultModel> modelClass;
+    private Class<? extends SummerSum> modelClass;
     private HashMap<String, Field> modelFields;
 
     @Override
@@ -39,7 +41,7 @@ class RouterHandlerItem implements Handler<RoutingContext>{
         HttpServerRequest request = routingContext.request();
         HttpMethod method = request
             .method();
-        RestfullResultModel model;
+        SummerSum model;
         if(HttpMethod.POST == method || HttpMethod.PUT == method || HttpMethod.DELETE == method){
             String body = routingContext.getBody()
                 .toString(Charset.forName("utf-8"));
@@ -55,21 +57,21 @@ class RouterHandlerItem implements Handler<RoutingContext>{
         });
         this.invoke(routingContext, model);
     }
-    private void invoke(RoutingContext routingContext, RestfullResultModel model){
+    private void invoke(RoutingContext routingContext, SummerSum model){
         try {
             this.method.invoke(this.bean, model);
-            RestSucessModel resultModel = model.inst(RestSucessModel.class);
+            RestSucessModel resultModel = (RestSucessModel) model.inst(RestSucessModel.class);
             resultModel.setRoutingContext(routingContext);
             resultModel.setResult(model.getResult());
-            resultModel.callService();
+            sum(resultModel);
         }catch (Exception e){
-            RestExceptionModel exceptionModel = model.inst(RestExceptionModel.class);
+            RestExceptionModel exceptionModel = (RestExceptionModel) model.inst(RestExceptionModel.class);
             exceptionModel.setRoutingContext(routingContext);
             exceptionModel.setException(e);
-            if(!exceptionModel.callService()) throw new RuntimeException(e.getMessage(), e);
+            if(!sum(exceptionModel)) throw new RuntimeException(e.getMessage(), e);
         }
     }
-    private void writeBeanValue(String key, String value, RestfullResultModel model){
+    private void writeBeanValue(String key, String value, SummerSum model){
         try {
             BeanUtils.setProperty(model, key, value);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -107,11 +109,11 @@ class RouterHandlerItem implements Handler<RoutingContext>{
         this.method = method;
     }
 
-    public Class<? extends RestfullResultModel> getModelClass() {
+    public Class<? extends SummerSum> getModelClass() {
         return modelClass;
     }
 
-    public void setModelClass(Class<? extends RestfullResultModel> modelClass) {
+    public void setModelClass(Class<? extends SummerSum> modelClass) {
         this.modelClass = modelClass;
     }
 

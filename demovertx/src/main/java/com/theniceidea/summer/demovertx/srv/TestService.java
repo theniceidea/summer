@@ -9,14 +9,16 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
 
+import static com.theniceidea.summer.core.srv.Summers.sum;
+
 @Service
-@SummerServiceClass
+@SummerService()
 public class TestService implements ApplicationRunner{
 
     @Autowired
     private TestService testService;
 
-    @SummerService
+//    @SummerService(value = false)
     public void task(TestModel model){
         System.out.println(model.getField());
     }
@@ -25,7 +27,7 @@ public class TestService implements ApplicationRunner{
     public void run(ApplicationArguments args) throws Exception {
         TestModel testModel = new TestModel();
         testModel.setField("0000000000000000000000000000");
-        testModel.callService();
+        sum(testModel);
         System.out.println(JSON.toJSONString(testModel));
     }
 }

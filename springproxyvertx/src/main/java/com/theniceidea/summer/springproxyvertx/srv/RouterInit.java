@@ -1,6 +1,6 @@
 package com.theniceidea.summer.springproxyvertx.srv;
 
-import com.theniceidea.summer.model.RestfullResultModel;
+import com.theniceidea.summer.model.SummerSum;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import org.springframework.aop.support.AopUtils;
@@ -98,7 +98,7 @@ public class RouterInit implements ApplicationContextAware{
             .toString()
             .replace("\\", "/");
 
-        Class<? extends RestfullResultModel> modelClass = (Class<? extends RestfullResultModel>) targetMethod.getParameterTypes()[0];
+        Class<? extends SummerSum> modelClass = (Class<? extends SummerSum>) targetMethod.getParameterTypes()[0];
 
         RouterHandlerItem routerItem = new RouterHandlerItem();
         routerItem.setBean(bean);
@@ -111,7 +111,7 @@ public class RouterInit implements ApplicationContextAware{
         Class<?>[] parameterTypes = method.getParameterTypes();
         if(isNull(parameterTypes) || parameterTypes.length != 1) return false;
         Class<?> parameterType = parameterTypes[0];
-        if(!RestfullResultModel.class.isAssignableFrom(parameterType)) return false;
+        if(!SummerSum.class.isAssignableFrom(parameterType)) return false;
         return true;
     }
     private HashMap<Class<?>, Method> getAopMethodsMap(Object bean){

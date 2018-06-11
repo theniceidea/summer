@@ -1,10 +1,9 @@
 package com.theniceidea.summer.demovertx.model;
 
 
-import com.theniceidea.summer.model.RestfullResultModel;
-import com.theniceidea.summer.model.Result;
+import com.theniceidea.summer.model.SummerSum;
 
-public class TestModel extends RestfullResultModel {
+public class TestModel extends SummerSum<Object> {
     public static TestModel inst(){
         return new TestModel();
     }
