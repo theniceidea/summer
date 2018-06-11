@@ -6,11 +6,15 @@
 		<artifactId>summer-parent</artifactId>
         <version>${summer-version}</version>
 	</parent>
-	<artifactId>core</artifactId>
+	<artifactId>summer-core</artifactId>
     <packaging>jar</packaging>
     <version>${summer-version}</version>
 
 	<dependencies>
+        <dependency>
+            <groupId>com.theniceidea.summer</groupId>
+            <artifactId>summer-model</artifactId>
+        </dependency>
 
 		<!-- Junit -->
 		<dependency>
@@ -18,15 +22,17 @@
 			<artifactId>junit</artifactId>
 		</dependency>
         <dependency>
-            <groupId>javassist</groupId>
-            <artifactId>javassist</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
 
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>ketongtx</id>
+            <url>http://maven.www.ketongtx.com/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <finalName>summer-core</finalName>

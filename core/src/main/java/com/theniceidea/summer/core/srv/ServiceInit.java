@@ -1,6 +1,7 @@
 package com.theniceidea.summer.core.srv;
 
 import com.theniceidea.summer.core.base.*;
+import com.theniceidea.summer.model.AbsModel;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +27,7 @@ class ServiceInit implements ApplicationContextAware{
             String beanName = names[i];
             Object bean = applicationContext.getBean(beanName);
             Class<?> targetClass = AopUtils.getTargetClass(bean);
+            if(targetClass.getName().contains("$$")) targetClass = targetClass.getSuperclass();
 
             HashMap<Class<?>, Method> map = getAopMethodsMap(bean);
 

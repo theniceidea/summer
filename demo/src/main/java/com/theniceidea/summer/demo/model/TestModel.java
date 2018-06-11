@@ -1,6 +1,7 @@
 package com.theniceidea.summer.demo.model;
 
-import com.theniceidea.summer.core.srv.AbsModel;
+
+import com.theniceidea.summer.model.AbsModel;
 
 public class TestModel extends AbsModel {
     public static TestModel inst(){

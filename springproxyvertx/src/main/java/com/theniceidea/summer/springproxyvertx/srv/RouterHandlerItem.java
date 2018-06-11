@@ -1,9 +1,7 @@
 package com.theniceidea.summer.springproxyvertx.srv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.BeanUtil;
-import com.theniceidea.summer.core.srv.RestfullResultModel;
-import com.theniceidea.summer.springproxyvertx.base.ConfigurationValueConverter;
+import com.theniceidea.summer.model.RestfullResultModel;
 import com.theniceidea.summer.springproxyvertx.base.RestExceptionModel;
 import com.theniceidea.summer.springproxyvertx.base.RestSucessModel;
 import io.vertx.core.Handler;
@@ -13,16 +11,12 @@ import io.vertx.ext.web.RoutingContext;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.util.StringUtils;
 
-import java.beans.PropertyDescriptor;
-import java.beans.PropertyEditor;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.HashMap;
-
-import static java.util.Objects.isNull;
 
 class RouterHandlerItem implements Handler<RoutingContext>{
     private static ObjectMapper objectMapper = new ObjectMapper();

@@ -1,6 +1,6 @@
 package com.theniceidea.summer.springproxyvertx.srv;
 
-import com.theniceidea.summer.core.srv.RestfullResultModel;
+import com.theniceidea.summer.model.RestfullResultModel;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import org.springframework.aop.support.AopUtils;

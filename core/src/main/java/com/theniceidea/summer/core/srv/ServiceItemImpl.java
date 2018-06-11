@@ -1,5 +1,7 @@
 package com.theniceidea.summer.core.srv;
 
+import com.theniceidea.summer.model.AbsModel;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 

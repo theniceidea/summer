@@ -6,14 +6,19 @@
 		<artifactId>summer-parent</artifactId>
         <version>${summer-version}</version>
 	</parent>
-	<artifactId>springproxyvertx</artifactId>
+	<artifactId>summer-springproxyvertx</artifactId>
     <packaging>jar</packaging>
     <version>${summer-version}</version>
 
 	<dependencies>
         <dependency>
             <groupId>com.theniceidea.summer</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>summer-core</artifactId>
+            <version>${summer-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.theniceidea.summer</groupId>
+            <artifactId>summer-model</artifactId>
             <version>${summer-version}</version>
         </dependency>
         <dependency>
@@ -48,6 +53,12 @@
         </dependency>
 
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>ketongtx</id>
+            <url>http://maven.www.ketongtx.com/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <finalName>summer-springproxyvertx</finalName>

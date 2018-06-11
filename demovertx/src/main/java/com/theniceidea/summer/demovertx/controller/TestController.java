@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
-import static com.theniceidea.summer.core.srv.Result.NewResult;
+import static com.theniceidea.summer.model.Result.NewResult;
 
 /**
  *
@@ -30,9 +30,9 @@ public class TestController {
 //        System.out.println("=======================================");
 //        System.out.println(s);
 //        System.out.println("=======================================");
-        testModel.setResult(NewResult(true));
+        testModel.setResult(true);
 
-        return (boolean) testModel.getResult().getValue();
+        return (boolean) testModel.getResult();
     }
 
 }

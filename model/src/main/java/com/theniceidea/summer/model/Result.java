@@ -1,4 +1,4 @@
-package com.theniceidea.summer.core.srv;
+package com.theniceidea.summer.model;
 
 public class Result<T> {
     private transient T value;

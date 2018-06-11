@@ -14,6 +14,7 @@
     <version>${summer-version}</version>
     <packaging>pom</packaging>
     <modules>
+        <module>model</module>
         <module>core</module>
         <module>springproxyvertx</module>
         <module>demo</module>
@@ -31,12 +32,17 @@
         <dependencies>
             <dependency>
                 <groupId>com.theniceidea.summer</groupId>
-                <artifactId>core</artifactId>
+                <artifactId>summer-model</artifactId>
                 <version>${summer-version}</version>
             </dependency>
             <dependency>
                 <groupId>com.theniceidea.summer</groupId>
-                <artifactId>springproxyvertx</artifactId>
+                <artifactId>summer-core</artifactId>
+                <version>${summer-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.theniceidea.summer</groupId>
+                <artifactId>summer-springproxyvertx</artifactId>
                 <version>${summer-version}</version>
             </dependency>
             <dependency>

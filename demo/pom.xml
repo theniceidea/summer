@@ -6,7 +6,7 @@
 		<artifactId>summer-parent</artifactId>
 		<version>${summer-version}</version>
 	</parent>
-	<artifactId>demo</artifactId>
+	<artifactId>summer-demo</artifactId>
 
 	<dependencies>
         <!-- Spring Boot Web 依赖 -->
@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>com.theniceidea.summer</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>summer-core</artifactId>
         </dependency>
 
     </dependencies>

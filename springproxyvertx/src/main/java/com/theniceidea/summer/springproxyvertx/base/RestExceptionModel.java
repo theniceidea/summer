@@ -1,9 +1,8 @@
 package com.theniceidea.summer.springproxyvertx.base;
 
-import com.theniceidea.summer.core.srv.AbsModel;
-import com.theniceidea.summer.core.srv.LocalModel;
-import com.theniceidea.summer.core.srv.OptionalServiceModel;
-import com.theniceidea.summer.core.srv.RestfullResultModel;
+import com.theniceidea.summer.model.AbsModel;
+import com.theniceidea.summer.model.LocalModel;
+import com.theniceidea.summer.model.OptionalServiceModel;
 import io.vertx.ext.web.RoutingContext;
 
 public class RestExceptionModel extends AbsModel implements LocalModel, OptionalServiceModel {

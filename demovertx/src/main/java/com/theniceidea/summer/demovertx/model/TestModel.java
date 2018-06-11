@@ -1,7 +1,8 @@
 package com.theniceidea.summer.demovertx.model;
 
-import com.theniceidea.summer.core.srv.RestfullResultModel;
-import com.theniceidea.summer.core.srv.Result;
+
+import com.theniceidea.summer.model.RestfullResultModel;
+import com.theniceidea.summer.model.Result;
 
 public class TestModel extends RestfullResultModel {
     public static TestModel inst(){
@@ -10,7 +11,7 @@ public class TestModel extends RestfullResultModel {
 
     private Integer eventCode;
     private String field;
-    private Result<Object> result;
+    private Object result;
 
     public Integer getEventCode() {
         return eventCode;
@@ -29,11 +30,11 @@ public class TestModel extends RestfullResultModel {
     }
 
     @Override
-    public Result<Object> getResult() {
+    public Object getResult() {
         return result;
     }
 
-    public void setResult(Result<Object> result) {
+    public void setResult(Object result) {
         this.result = result;
     }
 }

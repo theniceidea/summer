@@ -1,11 +1,17 @@
-package com.theniceidea.summer.core.srv;
+package com.theniceidea.summer.model;
+
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class AbsModel {
 
     private transient Object context;
 
     public boolean callService(){
-        return Manager.callService(this);
+        try {
+            return Call.call(this);
+        } catch (InvocationTargetException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 
     public <T extends AbsModel> T inst(Class<T> cls){
