@@ -1,6 +1,7 @@
 package com.theniceidea.summer.demo.srv;
 
 import com.alibaba.fastjson.JSON;
+import com.theniceidea.summer.core.base.RemoteServiceSum;
 import com.theniceidea.summer.core.base.SummerService;
 import com.theniceidea.summer.demo.model.TestModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,13 @@ public class TestService implements ApplicationRunner{
     @Autowired
     private TestService testService;
 
-    @SummerService
+    @SummerService()
     public void task(TestModel model){
         System.out.println(model.getField());
+    }
+    @SummerService(false)
+    public void task(RemoteServiceSum model){
+        System.out.println(JSON.toJSONString(model.getSummerSum()));
     }
 
     @Override

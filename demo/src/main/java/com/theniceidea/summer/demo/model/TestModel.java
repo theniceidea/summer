@@ -1,6 +1,7 @@
 package com.theniceidea.summer.demo.model;
 
 
+import com.theniceidea.summer.model.OptionalSum;
 import com.theniceidea.summer.model.SummerSum;
 
 public class TestModel extends SummerSum<String> {
