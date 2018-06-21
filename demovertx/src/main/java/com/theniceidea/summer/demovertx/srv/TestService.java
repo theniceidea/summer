@@ -2,7 +2,6 @@ package com.theniceidea.summer.demovertx.srv;
 
 import com.alibaba.fastjson.JSON;
 import com.theniceidea.summer.core.base.SummerService;
-import com.theniceidea.summer.core.base.SummerServiceClass;
 import com.theniceidea.summer.demovertx.model.TestModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

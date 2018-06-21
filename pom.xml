@@ -9,7 +9,7 @@
         <version>1.5.8.RELEASE</version>
     </parent>
 
-    <groupId>com.theniceidea.summer</groupId>
+    <groupId>org.summerframework</groupId>
     <artifactId>summer-parent</artifactId>
     <version>${summer-version}</version>
     <packaging>pom</packaging>
@@ -31,17 +31,17 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.theniceidea.summer</groupId>
+                <groupId>org.summerframework</groupId>
                 <artifactId>summer-model</artifactId>
                 <version>${summer-version}</version>
             </dependency>
             <dependency>
-                <groupId>com.theniceidea.summer</groupId>
+                <groupId>org.summerframework</groupId>
                 <artifactId>summer-core</artifactId>
                 <version>${summer-version}</version>
             </dependency>
             <dependency>
-                <groupId>com.theniceidea.summer</groupId>
+                <groupId>org.summerframework</groupId>
                 <artifactId>summer-springproxyvertx</artifactId>
                 <version>${summer-version}</version>
             </dependency>
