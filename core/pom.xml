@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.summerframework</groupId>
 		<artifactId>summer-parent</artifactId>
-        <version>${summer-version}</version>
+        <version>1.0.33-RELEASE</version>
 	</parent>
 	<artifactId>summer-core</artifactId>
     <packaging>jar</packaging>

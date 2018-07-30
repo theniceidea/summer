@@ -25,7 +25,7 @@
         <jdk-version>1.8</jdk-version>
         <maven.test.skip>true</maven.test.skip>
         <logback_maxHistory>365</logback_maxHistory>
-        <summer-version>1.0.4-RELEASE</summer-version>
+        <summer-version>1.0.33-RELEASE</summer-version>
     </properties>
 
     <dependencyManagement>
@@ -99,9 +99,15 @@
         </dependencies>
     </dependencyManagement>
     <distributionManagement>
+        <!--<repository>-->
+            <!--<id>ketongtx</id>-->
+            <!--<url>http://maven.www.ketongtx.com/repository/maven-releases/</url>-->
+        <!--</repository>-->
+
         <repository>
-            <id>ketongtx</id>
-            <url>http://maven.www.ketongtx.com/repository/maven-releases/</url>
+            <id>saicdt-cxpt-release</id>
+            <name>Repository for saicdt cxpt release builds</name>
+            <url>http://maven01.saicdt.com/repository/cxpt-release/</url>
         </repository>
     </distributionManagement>
     <build>
