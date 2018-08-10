@@ -99,15 +99,9 @@
         </dependencies>
     </dependencyManagement>
     <distributionManagement>
-        <!--<repository>-->
-            <!--<id>ketongtx</id>-->
-            <!--<url>http://maven.www.ketongtx.com/repository/maven-releases/</url>-->
-        <!--</repository>-->
-
         <repository>
-            <id>saicdt-cxpt-release</id>
-            <name>Repository for saicdt cxpt release builds</name>
-            <url>http://maven01.saicdt.com/repository/cxpt-release/</url>
+            <id>ketongtx</id>
+            <url>http://maven.www.ketongtx.com/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
     <build>
