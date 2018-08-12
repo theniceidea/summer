@@ -11,7 +11,7 @@
 
     <groupId>org.summerframework</groupId>
     <artifactId>summer-parent</artifactId>
-    <version>${summer-version}</version>
+    <version>summer-version-1.0.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>model</module>
@@ -25,7 +25,7 @@
         <jdk-version>1.8</jdk-version>
         <maven.test.skip>true</maven.test.skip>
         <logback_maxHistory>365</logback_maxHistory>
-        <summer-version>1.0.33-RELEASE</summer-version>
+        <summer-version>summer-version-1.0.0</summer-version>
     </properties>
 
     <dependencyManagement>
@@ -33,17 +33,17 @@
             <dependency>
                 <groupId>org.summerframework</groupId>
                 <artifactId>summer-model</artifactId>
-                <version>${summer-version}</version>
+                <version>summer-version-1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.summerframework</groupId>
                 <artifactId>summer-core</artifactId>
-                <version>${summer-version}</version>
+                <version>summer-version-1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.summerframework</groupId>
                 <artifactId>summer-springproxyvertx</artifactId>
-                <version>${summer-version}</version>
+                <version>summer-version-1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

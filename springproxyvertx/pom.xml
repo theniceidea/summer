@@ -4,22 +4,22 @@
 	<parent>
 		<groupId>org.summerframework</groupId>
 		<artifactId>summer-parent</artifactId>
-        <version>${summer-version}</version>
+        <version>summer-version-1.0.0</version>
 	</parent>
 	<artifactId>summer-springproxyvertx</artifactId>
     <packaging>jar</packaging>
-    <version>${summer-version}</version>
+    <version>summer-version-1.0.0</version>
 
 	<dependencies>
         <dependency>
             <groupId>org.summerframework</groupId>
             <artifactId>summer-core</artifactId>
-            <version>${summer-version}</version>
+            <version>summer-version-1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.summerframework</groupId>
             <artifactId>summer-model</artifactId>
-            <version>${summer-version}</version>
+            <version>summer-version-1.0.0</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>

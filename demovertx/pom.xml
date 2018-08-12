@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.summerframework</groupId>
 		<artifactId>summer-parent</artifactId>
-		<version>${summer-version}</version>
+		<version>summer-version-1.0.0</version>
 	</parent>
 	<artifactId>summer-demovertx</artifactId>
 
