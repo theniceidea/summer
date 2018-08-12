@@ -14,8 +14,8 @@ import static java.util.Objects.nonNull;
 
 class Manager {
     private static final Logger logger = Logger.getLogger(Manager.class.getName());
-    private static HashMap<Class<?>, ServiceItem<?>> localServices = new HashMap<>();
-    private static ServiceItem remoteServiceItem;
+    protected static HashMap<Class<?>, ServiceItem<?>> localServices = new HashMap<>();
+    protected static ServiceItem remoteServiceItem;
 
     protected static <T extends SummerSum<?>> void register(Class<T> cls, ServiceItem<T> serviceItem){
         reg(cls, serviceItem);

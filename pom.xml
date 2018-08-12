@@ -16,6 +16,7 @@
     <modules>
         <module>model</module>
         <module>core</module>
+        <module>rpc</module>
         <module>springproxyvertx</module>
         <module>demo</module>
         <module>demovertx</module>
@@ -38,6 +39,11 @@
             <dependency>
                 <groupId>org.summerframework</groupId>
                 <artifactId>summer-core</artifactId>
+                <version>summer-version-1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.summerframework</groupId>
+                <artifactId>summer-rpc</artifactId>
                 <version>summer-version-1.0.0</version>
             </dependency>
             <dependency>

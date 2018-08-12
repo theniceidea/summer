@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
+import org.summerframework.model.GetRegistedSummerModels;
 
 import static org.summerframework.core.srv.Summers.sum;
 
@@ -34,5 +35,6 @@ public class TestService implements ApplicationRunner{
         testModel.setField("0000000000000000000000000000");
         sum(testModel);
         System.out.println(JSON.toJSONString(testModel));
+        GetRegistedSummerModels.sum().forEach(System.out::println);
     }
 }
