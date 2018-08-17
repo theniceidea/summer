@@ -18,7 +18,6 @@ public class ReceiveFrameService {
 
         Class<?> kls = getClass(metaData.getClassName());
         Object body = ParseJson.sum(kls, new String(msg.getBody()));
-        
     }
 
     private Class<?> getClass(String className){
