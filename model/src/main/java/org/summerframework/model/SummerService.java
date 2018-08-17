@@ -17,13 +17,13 @@
  *
  */
 
-package org.summerframework.core.base;
+package org.summerframework.model;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
-@Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
-@Target(value = { java.lang.annotation.ElementType.TYPE })
+@Retention(value = RetentionPolicy.RUNTIME)
+@Target(value = { ElementType.TYPE, ElementType.METHOD })
 @Documented
-public @interface ExcludeStrategyClass {}
+public @interface SummerService {
+    boolean value() default true;
+}

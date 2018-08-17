@@ -6,23 +6,15 @@
 		<artifactId>summer-parent</artifactId>
         <version>summer-version-1.0.0</version>
 	</parent>
-	<artifactId>summer-rpc</artifactId>
+	<artifactId>summer-rpcmodel</artifactId>
     <packaging>jar</packaging>
     <version>summer-version-1.0.0</version>
 
 	<dependencies>
         <dependency>
             <groupId>org.summerframework</groupId>
-            <artifactId>summer-rpcmodel</artifactId>
+            <artifactId>summer-model</artifactId>
             <version>summer-version-1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,6 +1,4 @@
-package org.summerframework.core.base;
-
-import org.summerframework.model.SummerSum;
+package org.summerframework.model;
 
 public class RemoteServiceSum extends SummerSum {
     public static RemoteServiceSum New(SummerSum summerSum){

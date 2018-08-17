@@ -1,6 +1,6 @@
 package org.summerframework.core.srv;
 
-import org.summerframework.core.base.RemoteServiceSum;
+import org.summerframework.model.RemoteServiceSum;
 import org.summerframework.model.LocalSum;
 import org.summerframework.model.SummerSum;
 import org.summerframework.model.OptionalSum;
@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 class Manager {

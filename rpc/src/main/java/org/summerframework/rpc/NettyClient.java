@@ -6,20 +6,23 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.EventExecutorGroup;
+import org.summerframework.rpcmodel.CreateHeartBeatFrame;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class NettyClient extends ChannelHandle {
 
-    private static Logger logger = Logger.getLogger(NettyClient.class.getName())
+    private static Logger logger = Logger.getLogger(NettyClient.class.getName());
 
     private Bootstrap bootstrap;
     private int workThreads = 0;
+    private int maxPackageSize = 1024*1024;
 
     private void init(){
         bootstrap = new Bootstrap();
@@ -32,6 +35,7 @@ public class NettyClient extends ChannelHandle {
                 @Override
                 protected void initChannel(SocketChannel sc) throws Exception {
                     ChannelPipeline pipeline = sc.pipeline();
+                    pipeline.addLast("length-frame-decoder", new LengthFieldBasedFrameDecoder(maxPackageSize, 0, 4, 0, 4));
                     pipeline.addLast("timeout", new IdleStateHandler(5, 0, 0, TimeUnit.SECONDS));
                     pipeline.addLast("handle", new NettyClient());
                 }
@@ -52,8 +56,8 @@ public class NettyClient extends ChannelHandle {
             IdleStateEvent e = (IdleStateEvent) evt;
             if (e.state() == IdleState.ALL_IDLE) {
                 Channel ch = ctx.channel();
-//                ch.writeAndFlush(encoded);
-                //TODO 心跳包
+                Object heartBeatFrame = CreateHeartBeatFrame.sum();
+                ch.writeAndFlush(heartBeatFrame);
             }
         }
 

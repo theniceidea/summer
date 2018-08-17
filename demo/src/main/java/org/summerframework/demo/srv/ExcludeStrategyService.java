@@ -1,7 +1,7 @@
 package org.summerframework.demo.srv;
 
 import org.summerframework.core.base.ExcludeStrategy;
-import org.summerframework.core.base.ExcludeStrategyClass;
+import org.summerframework.model.ExcludeStrategyClass;
 import org.springframework.stereotype.Service;
 
 @Service

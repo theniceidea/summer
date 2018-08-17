@@ -1,6 +1,6 @@
 package org.summerframework.demovertx.base;
 
-import org.summerframework.core.base.SummerService;
+import org.summerframework.model.SummerService;
 import org.summerframework.springproxyvertx.base.RestExceptionModel;
 import org.springframework.stereotype.Component;
 

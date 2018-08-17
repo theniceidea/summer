@@ -1,7 +1,7 @@
 package org.summerframework.core.srv;
 
 import org.springframework.stereotype.Service;
-import org.summerframework.core.base.SummerService;
+import org.summerframework.model.SummerService;
 import org.summerframework.model.GetRegistedSummerModels;
 
 import java.util.Set;
