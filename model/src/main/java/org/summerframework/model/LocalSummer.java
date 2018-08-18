@@ -1,4 +1,4 @@
 package org.summerframework.model;
 
-public interface LocalSum {
+public interface LocalSummer {
 }

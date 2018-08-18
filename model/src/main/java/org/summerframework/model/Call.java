@@ -27,7 +27,7 @@ class Call {
         }
     }
 
-    static boolean call(SummerSum model)
+    static boolean call(Summer model)
         throws InvocationTargetException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException {
         return (boolean) callServiceMethod.invoke(null, model);
     }

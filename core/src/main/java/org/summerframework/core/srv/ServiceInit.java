@@ -3,7 +3,7 @@ package org.summerframework.core.srv;
 import org.summerframework.model.ExcludeStrategyClass;
 import org.summerframework.model.SummerService;
 import org.summerframework.core.base.*;
-import org.summerframework.model.SummerSum;
+import org.summerframework.model.Summer;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -57,7 +57,7 @@ class ServiceInit implements ApplicationContextAware{
         Class<?>[] parameterTypes = method.getParameterTypes();
         if(isNull(parameterTypes) || parameterTypes.length != 1) return false;
         Class<?> parameterType = parameterTypes[0];
-        if(!SummerSum.class.isAssignableFrom(parameterType)) return false;
+        if(!Summer.class.isAssignableFrom(parameterType)) return false;
         return true;
     }
     private HashMap<Class<?>, Method> getAopMethodsMap(Object bean){

@@ -1,6 +1,6 @@
 package org.summerframework.core.srv;
 
-import org.summerframework.model.SummerSum;
+import org.summerframework.model.Summer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,7 +14,7 @@ class ServiceItemImpl implements ServiceItem{
     }
 
     @Override
-    public void callService(SummerSum dataModel) {
+    public void callService(Summer dataModel) {
         try {
             this.method.invoke(target, dataModel);
         } catch (IllegalAccessException | InvocationTargetException e) {

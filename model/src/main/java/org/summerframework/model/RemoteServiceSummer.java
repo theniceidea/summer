@@ -1,20 +1,20 @@
 package org.summerframework.model;
 
-public class RemoteServiceSum extends SummerSum {
-    public static RemoteServiceSum New(SummerSum summerSum){
-        RemoteServiceSum remoteServiceSum = new RemoteServiceSum();
+public class RemoteServiceSummer extends Summer {
+    public static RemoteServiceSummer New(Summer summerSum){
+        RemoteServiceSummer remoteServiceSum = new RemoteServiceSummer();
         remoteServiceSum.setSummerSum(summerSum);
         return remoteServiceSum;
     }
 
-    private SummerSum summerSum;
+    private Summer summerSum;
     private boolean processed;
 
-    public SummerSum getSummerSum() {
+    public Summer getSummerSum() {
         return summerSum;
     }
 
-    public void setSummerSum(SummerSum summerSum) {
+    public void setSummerSum(Summer summerSum) {
         this.summerSum = summerSum;
     }
 

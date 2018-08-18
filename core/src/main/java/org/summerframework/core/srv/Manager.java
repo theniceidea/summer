@@ -1,9 +1,9 @@
 package org.summerframework.core.srv;
 
-import org.summerframework.model.RemoteServiceSum;
-import org.summerframework.model.LocalSum;
-import org.summerframework.model.SummerSum;
-import org.summerframework.model.OptionalSum;
+import org.summerframework.model.RemoteServiceSummer;
+import org.summerframework.model.LocalSummer;
+import org.summerframework.model.Summer;
+import org.summerframework.model.OptionalSummer;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -16,7 +16,7 @@ class Manager {
     protected static HashMap<Class<?>, ServiceItem<?>> localServices = new HashMap<>();
     protected static ServiceItem remoteServiceItem;
 
-    protected static <T extends SummerSum<?>> void register(Class<T> cls, ServiceItem<T> serviceItem){
+    protected static <T extends Summer<?>> void register(Class<T> cls, ServiceItem<T> serviceItem){
         reg(cls, serviceItem);
     }
     protected static void register(Class<?> cls, ServiceItemImpl serviceItem){
@@ -26,25 +26,25 @@ class Manager {
     private static void reg(Class<?> cls, Object serviceItem) {
         if(localServices.containsKey(cls)) throw new RuntimeException("service exists: "+cls.getName());
         localServices.put(cls, (ServiceItem) serviceItem);
-        if(Objects.equals(RemoteServiceSum.class, cls)) remoteServiceItem = (ServiceItem) serviceItem;
+        if(Objects.equals(RemoteServiceSummer.class, cls)) remoteServiceItem = (ServiceItem) serviceItem;
     }
-    protected static boolean callService(SummerSum<?> dataModel){
+    protected static boolean callService(Summer<?> dataModel){
         ServiceItem service = localServices.get(dataModel.getClass());
         if(nonNull(service)) {
             service.callService(dataModel);
             return true;
         }
-        if(dataModel instanceof LocalSum){
-            if(dataModel instanceof OptionalSum) return false;
+        if(dataModel instanceof LocalSummer){
+            if(dataModel instanceof OptionalSummer) return false;
             throw new RuntimeException("service " + dataModel.getClass()
                 .getName() + " not found");
         }
         if(nonNull(remoteServiceItem)){
-            RemoteServiceSum model = RemoteServiceSum.New(dataModel);
+            RemoteServiceSummer model = RemoteServiceSummer.New(dataModel);
             remoteServiceItem.callService(model);
             return model.isProcessed();
         }else{
-            if(dataModel instanceof OptionalSum) return false;
+            if(dataModel instanceof OptionalSummer) return false;
             throw new RuntimeException("service " + dataModel.getClass()
                 .getName() + " not found");
         }

@@ -1,10 +1,9 @@
 package org.summerframework.demo.model;
 
 
-import org.summerframework.model.OptionalSum;
-import org.summerframework.model.SummerSum;
+import org.summerframework.model.Summer;
 
-public class TestModel extends SummerSum<String> {
+public class TestModel extends Summer<String> {
     public static TestModel inst(){
         return new TestModel();
     }

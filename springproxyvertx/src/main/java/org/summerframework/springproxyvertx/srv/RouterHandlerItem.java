@@ -1,7 +1,7 @@
 package org.summerframework.springproxyvertx.srv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.summerframework.model.SummerSum;
+import org.summerframework.model.Summer;
 import org.summerframework.springproxyvertx.base.RestExceptionModel;
 import org.summerframework.springproxyvertx.base.RestSucessModel;
 import io.vertx.core.Handler;
@@ -25,7 +25,7 @@ class RouterHandlerItem implements Handler<RoutingContext>{
     private String path;
     private Object bean;
     private Method method;
-    private Class<? extends SummerSum> modelClass;
+    private Class<? extends Summer> modelClass;
     private HashMap<String, Field> modelFields;
 
     @Override
@@ -41,7 +41,7 @@ class RouterHandlerItem implements Handler<RoutingContext>{
         HttpServerRequest request = routingContext.request();
         HttpMethod method = request
             .method();
-        SummerSum model;
+        Summer model;
         if(HttpMethod.POST == method || HttpMethod.PUT == method || HttpMethod.DELETE == method){
             String body = routingContext.getBody()
                 .toString(Charset.forName("utf-8"));
@@ -57,7 +57,7 @@ class RouterHandlerItem implements Handler<RoutingContext>{
         });
         this.invoke(routingContext, model);
     }
-    private void invoke(RoutingContext routingContext, SummerSum model){
+    private void invoke(RoutingContext routingContext, Summer model){
         try {
             this.method.invoke(this.bean, model);
             RestSucessModel resultModel = (RestSucessModel) model.inst(RestSucessModel.class);
@@ -71,7 +71,7 @@ class RouterHandlerItem implements Handler<RoutingContext>{
             if(!sum(exceptionModel)) throw new RuntimeException(e.getMessage(), e);
         }
     }
-    private void writeBeanValue(String key, String value, SummerSum model){
+    private void writeBeanValue(String key, String value, Summer model){
         try {
             BeanUtils.setProperty(model, key, value);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -109,11 +109,11 @@ class RouterHandlerItem implements Handler<RoutingContext>{
         this.method = method;
     }
 
-    public Class<? extends SummerSum> getModelClass() {
+    public Class<? extends Summer> getModelClass() {
         return modelClass;
     }
 
-    public void setModelClass(Class<? extends SummerSum> modelClass) {
+    public void setModelClass(Class<? extends Summer> modelClass) {
         this.modelClass = modelClass;
     }
 

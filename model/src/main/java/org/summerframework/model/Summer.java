@@ -2,7 +2,7 @@ package org.summerframework.model;
 
 import java.lang.reflect.InvocationTargetException;
 
-public abstract class SummerSum<R> {
+public abstract class Summer<R> {
     private transient Object context;
     private transient R result;
 
@@ -15,7 +15,7 @@ public abstract class SummerSum<R> {
         }
     }
 
-    public <T extends SummerSum> T inst(Class<T> cls){
+    public <T extends Summer> T inst(Class<T> cls){
         try {
             T t = cls.newInstance();
             t.setContext(context);

@@ -1,9 +1,9 @@
 package org.summerframework.demovertx.model;
 
 
-import org.summerframework.model.SummerSum;
+import org.summerframework.model.Summer;
 
-public class TestModel extends SummerSum<Object> {
+public class TestModel extends Summer<Object> {
     public static TestModel inst(){
         return new TestModel();
     }

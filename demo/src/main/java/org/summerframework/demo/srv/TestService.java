@@ -1,7 +1,7 @@
 package org.summerframework.demo.srv;
 
 import com.alibaba.fastjson.JSON;
-import org.summerframework.model.RemoteServiceSum;
+import org.summerframework.model.RemoteServiceSummer;
 import org.summerframework.model.SummerService;
 import org.summerframework.demo.model.TestModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class TestService implements ApplicationRunner{
         System.out.println(model.getField());
     }
     @SummerService(false)
-    public void task(RemoteServiceSum model){
+    public void task(RemoteServiceSummer model){
         System.out.println(JSON.toJSONString(model.getSummerSum()));
     }
 

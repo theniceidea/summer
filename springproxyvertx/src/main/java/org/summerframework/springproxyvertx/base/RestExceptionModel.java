@@ -1,11 +1,11 @@
 package org.summerframework.springproxyvertx.base;
 
-import org.summerframework.model.SummerSum;
-import org.summerframework.model.LocalSum;
-import org.summerframework.model.OptionalSum;
+import org.summerframework.model.Summer;
+import org.summerframework.model.LocalSummer;
+import org.summerframework.model.OptionalSummer;
 import io.vertx.ext.web.RoutingContext;
 
-public class RestExceptionModel extends SummerSum implements LocalSum, OptionalSum {
+public class RestExceptionModel extends Summer implements LocalSummer, OptionalSummer {
 
     private RoutingContext routingContext;
     private Exception exception;

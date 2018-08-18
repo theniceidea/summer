@@ -1,9 +1,9 @@
 package org.summerframework.core.srv;
 
-import org.summerframework.model.SummerSum;
+import org.summerframework.model.Summer;
 
 public class Summers {
-    public static boolean sum(SummerSum model){
+    public static boolean sum(Summer model){
         return Manager.callService(model);
     }
 }
