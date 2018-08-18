@@ -1,22 +1,24 @@
 package org.summerframework.rpcmodel;
 
-public class FrameMessage {
-    private byte[] meta;
-    private byte[] body;
+import org.summerframework.model.SummerSum;
 
-    public byte[] getMeta() {
+public class FrameMessage {
+    private MetaData meta;
+    private SummerSum<?> body;
+
+    public MetaData getMeta() {
         return meta;
     }
 
-    public void setMeta(byte[] meta) {
+    public void setMeta(MetaData meta) {
         this.meta = meta;
     }
 
-    public byte[] getBody() {
+    public SummerSum<?> getBody() {
         return body;
     }
 
-    public void setBody(byte[] body) {
+    public void setBody(SummerSum<?> body) {
         this.body = body;
     }
 }
