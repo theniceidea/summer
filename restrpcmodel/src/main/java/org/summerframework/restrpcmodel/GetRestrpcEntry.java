@@ -2,13 +2,11 @@ package org.summerframework.restrpcmodel;
 
 import org.summerframework.model.Summer;
 
-import java.util.List;
-
-public class GetRestrpcEndpoint extends Summer<String> {
+public class GetRestrpcEntry extends Summer<String> {
     private Summer<?> summer;
 
     public static String sum(Summer<?> summer){
-        GetRestrpcEndpoint model = new GetRestrpcEndpoint();
+        GetRestrpcEntry model = new GetRestrpcEntry();
         model.setSummer(summer);
         return model.baseSum();
     }
