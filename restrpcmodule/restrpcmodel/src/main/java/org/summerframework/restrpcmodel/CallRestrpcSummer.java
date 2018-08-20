@@ -2,12 +2,16 @@ package org.summerframework.restrpcmodel;
 
 import org.summerframework.model.Summer;
 
-public class CallRestrpcSummer extends Summer<String>{
-    private String errCode;
-    private String errMsg;
-    private String trace;
-
+public class CallRestrpcSummer extends Summer<CallSummerResult>{
     private Summer summer;
+
+    public static CallSummerResult sum(Summer summer){
+        CallRestrpcSummer mod = new CallRestrpcSummer();
+
+        mod.setSummer(summer);
+
+        return mod.baseSum();
+    }
 
     public Summer getSummer() {
         return summer;
@@ -17,27 +21,4 @@ public class CallRestrpcSummer extends Summer<String>{
         this.summer = summer;
     }
 
-    public String getErrCode() {
-        return errCode;
-    }
-
-    public void setErrCode(String errCode) {
-        this.errCode = errCode;
-    }
-
-    public String getErrMsg() {
-        return errMsg;
-    }
-
-    public void setErrMsg(String errMsg) {
-        this.errMsg = errMsg;
-    }
-
-    public String getTrace() {
-        return trace;
-    }
-
-    public void setTrace(String trace) {
-        this.trace = trace;
-    }
 }

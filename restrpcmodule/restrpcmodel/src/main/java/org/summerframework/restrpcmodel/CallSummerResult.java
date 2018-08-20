@@ -28,4 +28,5 @@ public class CallSummerResult {
     public void setResult(Object result) {
         this.result = result;
     }
+
 }

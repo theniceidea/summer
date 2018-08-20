@@ -34,6 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -86,9 +87,12 @@ public class RestrpcEntryManager implements ApplicationListener<EmbeddedServletC
             String errMsg = responseEntity.getHeaders().getFirst("restrpc-errmsg");
             String body = responseEntity.getBody();
 
-            callRestrpcSummer.setErrCode(errCode);
-            callRestrpcSummer.setErrMsg(errMsg);
-            callRestrpcSummer.setResult(body);
+            CallSummerResult result = new CallSummerResult();
+            result.setErrCode(errCode);
+            result.setErrMsg(errMsg);
+            result.setResult(body);
+
+            callRestrpcSummer.setResult(result);
 
             return;
         }
@@ -110,7 +114,15 @@ public class RestrpcEntryManager implements ApplicationListener<EmbeddedServletC
         response.addHeader("restrpc-errcode", result.getErrCode());
         response.addHeader("restrpc-errmsg", result.getErrMsg());
         if(nonNull(result.getResult())) {
-            response.getWriter().write(JSON.toJSONString(result.getResult()));
+            if("0".equals(result.getErrCode())) {
+                HashMap<String, Object> map = new HashMap<>(1);
+                map.put("result", result.getResult());
+                response.getWriter()
+                    .write(JSON.toJSONString(map));
+            }else{
+                response.getWriter()
+                    .write((String) result.getResult());
+            }
         }
     }
 
@@ -118,13 +130,15 @@ public class RestrpcEntryManager implements ApplicationListener<EmbeddedServletC
         Summer<?> summer = model.getSummer();
         String className = summer.getClass().getName();
 
-        if(!ENDPOINTS.contains(className)){
+        if(!ENDPOINTS.containsKey(className)){
             Set<String> strings = GetRestrpcEntries.sum(className);
             if(CollectionUtils.isEmpty(strings)){
                 ENDPOINTS.put(className, new ArrayList<>(0));
             }else{
-                ArrayList<String> list = new ArrayList<>(strings.size());
-                list.addAll(strings);
+                List<String> list = strings.stream().map(s->{
+                    int i = s.indexOf(";");
+                    return s.substring(i+1);
+                }).collect(Collectors.toList());
                 ENDPOINTS.put(className, list);
             }
         }
@@ -147,7 +161,7 @@ public class RestrpcEntryManager implements ApplicationListener<EmbeddedServletC
         model.setResult(new HashSet<>(strings));
     }
 
-    @Scheduled(cron = "0/1 * * * * ? *")
+    @Scheduled(cron = "0/1 * * * * ?")
     public void regLocalServices() throws SocketException {
         logger.info("regLocalServices");
         String localIpAddr = getLocalIpAddr();
@@ -162,38 +176,44 @@ public class RestrpcEntryManager implements ApplicationListener<EmbeddedServletC
             if(!Serializable.class.isAssignableFrom(cls)) { return; }
 
             String clsName = cls.getName();
-            map.put("summer-rpc-"+clsName+":"+localIpAddr+":"+this.serverPort, "http://"+localIpAddr+":"+this.serverPort+"/summerentry");
+            map.put("summer-rpc-"+clsName+":"+localIpAddr+":"+this.serverPort, clsName+";http://"+localIpAddr+":"+this.serverPort+"/summerentry");
         });
         redisTemplate.executePipelined((RedisCallback<Boolean>) redisConnection -> {
             map.forEach((k, v)->{
                 redisConnection.set(k.getBytes(), v.getBytes(), Expiration.seconds(5), RedisStringCommands.SetOption.UPSERT);
             });
-            return true;
+            return null;
         });
 
     }
-    @Scheduled(cron = "0/1 * * * * ? *")
+    @Scheduled(cron = "0/1 * * * * ?")
     public void updateRemortServices() throws SocketException {
         logger.info("updateRemortServices");
 
-        redisTemplate.executePipelined((RedisCallback<Object>) redisConnection -> {
+        Set<String> keys = redisTemplate.keys("summer-rpc-*");
+        List<String> list = redisTemplate.opsForValue()
+            .multiGet(keys);
+        HashMap<String, List<String>> map = new HashMap<>();
+        list.forEach(addr->{
+            int i = addr.indexOf(";");
+            String clsName = addr.substring(0, i);
+            String address = addr.substring(i+1);
+            List<String> valueList = map.get(clsName);
+            if(isNull(valueList)){
+                valueList = new ArrayList<>();
+                map.put(clsName, valueList);
+            }
+            valueList.add(address);
+        });
+        ENDPOINTS.entrySet().forEach(e->{
+            String k = e.getKey();
+            List<String> valueList = map.get(k);
+            if(CollectionUtils.isEmpty(valueList)) {
+                ENDPOINTS.put(k, new ArrayList<>(0));
+                return;
+            }
 
-            ENDPOINTS.entrySet().forEach(e->{
-                String k = e.getKey();
-                Set<byte[]> keys1 = redisConnection.keys(("summer-rpc-" + k).getBytes());
-                if(CollectionUtils.isEmpty(keys1)) {
-                    ENDPOINTS.put(k, new ArrayList<>(0));
-                    return;
-                }
-
-                byte[][] bytes = keys1.toArray(new byte[][]{});
-                List<byte[]> bytes1 = redisConnection.mGet(bytes);
-                List<String> stringList = bytes1.stream().map(String::new).collect(Collectors.toList());
-
-                ENDPOINTS.put(k, stringList);
-            });
-
-            return null;
+            ENDPOINTS.put(k, valueList);
         });
     }
     private static String getLocalIpAddr() throws SocketException {

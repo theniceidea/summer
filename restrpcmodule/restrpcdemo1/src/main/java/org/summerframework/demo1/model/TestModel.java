@@ -3,7 +3,9 @@ package org.summerframework.demo1.model;
 
 import org.summerframework.model.Summer;
 
-public class TestModel extends Summer<String> {
+import java.io.Serializable;
+
+public class TestModel extends Summer<String> implements Serializable{
     public static TestModel inst(){
         return new TestModel();
     }

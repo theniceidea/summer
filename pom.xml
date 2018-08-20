@@ -33,6 +33,11 @@
         <dependencies>
             <dependency>
                 <groupId>org.summerframework</groupId>
+                <artifactId>summer-restrpcdemomodel</artifactId>
+                <version>summer-version-1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.summerframework</groupId>
                 <artifactId>summer-restrpcmodel</artifactId>
                 <version>summer-version-1.0.0</version>
             </dependency>
@@ -101,6 +106,18 @@
                 <artifactId>commons-io</artifactId>
                 <version>2.5</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>4.4.5</version>
+            </dependency>
+
+
             <!--<dependency>-->
                 <!--<groupId>com.fasterxml.jackson.core</groupId>-->
                 <!--<artifactId>jackson-databind</artifactId>-->

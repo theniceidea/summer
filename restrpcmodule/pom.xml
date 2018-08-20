@@ -15,6 +15,7 @@
     <modules>
         <module>restrpc</module>
         <module>restrpcmodel</module>
+        <module>restrpcdemomodel</module>
         <module>restrpcdemo1</module>
         <module>restrpcdemo2</module>
     </modules>
