@@ -65,7 +65,7 @@ public class RestrpcEntryManager implements ApplicationListener<EmbeddedServletC
         Class<? extends Summer> cls = summer.getClass();
 
         if(LocalSummer.class.isAssignableFrom(cls)) {
-            throw new RuntimeException("这个summer继承与 LocalSummer, 不允许执行 restrpc 调用;");
+            throw new RuntimeException("这个summer继承于 LocalSummer, 不允许执行 restrpc 调用;");
         }
         if(!Serializable.class.isAssignableFrom(cls)) {
             throw new RuntimeException("如果要执行rpc调用,请继承与这个接口 Serializable;");

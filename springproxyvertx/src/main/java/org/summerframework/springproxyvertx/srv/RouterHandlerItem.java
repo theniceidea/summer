@@ -18,8 +18,6 @@ import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
-import static org.summerframework.core.srv.Summers.sum;
-
 class RouterHandlerItem implements Handler<RoutingContext>{
     private static ObjectMapper objectMapper = new ObjectMapper();
     private String path;
@@ -63,12 +61,12 @@ class RouterHandlerItem implements Handler<RoutingContext>{
             RestSucessModel resultModel = (RestSucessModel) model.inst(RestSucessModel.class);
             resultModel.setRoutingContext(routingContext);
             resultModel.setResult(model.getResult());
-            sum(resultModel);
+            resultModel.baseSum();
         }catch (Exception e){
             RestExceptionModel exceptionModel = (RestExceptionModel) model.inst(RestExceptionModel.class);
             exceptionModel.setRoutingContext(routingContext);
             exceptionModel.setException(e);
-            if(!sum(exceptionModel)) throw new RuntimeException(e.getMessage(), e);
+            exceptionModel.baseSum();
         }
     }
     private void writeBeanValue(String key, String value, Summer model){
