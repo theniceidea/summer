@@ -18,8 +18,7 @@
         <module>core</module>
         <module>springproxyvertx</module>
         <module>demo</module>
-        <module>restrpc</module>
-        <module>restrpcmodel</module>
+        <module>restrpcmodule</module>
         <module>demovertx</module>
     </modules>
 

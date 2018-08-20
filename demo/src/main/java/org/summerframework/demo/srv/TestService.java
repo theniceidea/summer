@@ -1,9 +1,9 @@
-package org.summerframework.demo.srv;
+package org.summerframework.demo1.srv;
 
 import com.alibaba.fastjson.JSON;
 import org.summerframework.model.RemoteServiceSummer;
 import org.summerframework.model.SummerService;
-import org.summerframework.demo.model.TestModel;
+import org.summerframework.demo1.model.TestModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

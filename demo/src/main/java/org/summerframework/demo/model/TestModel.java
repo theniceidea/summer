@@ -1,4 +1,4 @@
-package org.summerframework.demo.model;
+package org.summerframework.demo1.model;
 
 
 import org.summerframework.model.Summer;
