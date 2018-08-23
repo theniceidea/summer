@@ -97,23 +97,24 @@ class ServiceInit implements ApplicationContextAware{
         return false;
     }
 
+    private EnableSummer getEnableSummer(ApplicationContext applicationContext){
+        Map<String, Object> beans = applicationContext.getBeansWithAnnotation(EnableSummer.class);
+        Optional<Object> bean = beans.values()
+            .stream()
+            .findFirst();
+        Class<?> targetClass = AopUtils.getTargetClass(bean.get());
+        if(targetClass.getName().contains("$$")) targetClass = targetClass.getSuperclass();
+
+        return targetClass.getAnnotation(EnableSummer.class);
+    }
+
     private Set<String> excludePackages(ApplicationContext applicationContext){
-        try {
-            HashSet<String> set = new HashSet<>();
-            String[] names = applicationContext.getBeanNamesForAnnotation(
-                (Class<? extends Annotation>) Class.forName("org.springframework.boot.autoconfigure.SpringBootApplication"));
-            for(int i=0; i<names.length; i++){
-                Object bean = applicationContext.getBean(names[0]);
-                Class<?> targetClass = AopUtils.getTargetClass(bean);
-                if(targetClass.getName().contains("$$")) targetClass = targetClass.getSuperclass();
-                EnableSummer annotation = targetClass.getAnnotation(EnableSummer.class);
-                String[] strings = annotation.excludePackages();
-                if(isNull(strings)) continue;
-                set.addAll(Arrays.asList(strings));
-            }
-            return set;
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e.getMessage(), e);
+        HashSet<String> set = new HashSet<>();
+        EnableSummer annotation = getEnableSummer(applicationContext);
+        String[] strings = annotation.excludePackages();
+        if(nonNull(strings)) {
+            set.addAll(Arrays.asList(strings));
         }
+        return set;
     }
 }
