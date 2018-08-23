@@ -3,6 +3,14 @@ package org.summerframework.core.srv;
 import com.sun.org.apache.bcel.internal.classfile.AccessFlags;
 import javassist.*;
 import javassist.bytecode.FieldInfo;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.type.ClassMetadata;
+import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.SystemPropertyUtils;
 import org.summerframework.model.ExcludeStrategyClass;
 import org.summerframework.model.SummerService;
 import org.summerframework.core.base.*;
@@ -14,6 +22,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.summerframework.model.SummerServiceBean;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -68,7 +77,7 @@ class ServiceInit implements ApplicationContextAware{
     private void install(Class<? extends Summer> modelClass, Class<?> beanClass, Object bean, Method method) {
         try {
             Class<?> makeClass = makeClass(modelClass);
-            Field service = makeClass.getDeclaredField("service__summer");
+            Field service = makeClass.getDeclaredField("service_______summer");
             service.setAccessible(true);
             if(SummerServiceBean.class.isAssignableFrom(beanClass) && "sum".equals(method.getName())){
                 Type[] genericInterfaces = beanClass.getGenericInterfaces();
@@ -110,23 +119,28 @@ class ServiceInit implements ApplicationContextAware{
     }
 
     private Class<?> makeClass(Class<? extends Summer> kls) throws NotFoundException, CannotCompileException {
+        scanPackageClass("");
+
         if(MakedModelClasses.containsKey(kls)) return MakedModelClasses.get(kls);
 
-        String type = ((ParameterizedType)kls.getGenericSuperclass()).getActualTypeArguments()[0].toString();
+        Type type1 = ((ParameterizedType) kls.getGenericSuperclass()).getActualTypeArguments()[0];
+        String type = ((ParameterizedType)type1).getRawType().getTypeName();
         ClassPool classPool = ClassPool.getDefault();
         CtClass summerServiceBeanClass = classPool.get(SummerServiceBean.class.getName());
         CtClass summerClass = classPool.get(kls.getName());
 
         CtClass subClass = classPool.makeClass(kls.getName() + "$$Summer", summerClass);
-//        String code = "private " + SummerServiceBean.class.getName() + "<" + kls.getName() + "> service$$;";
-        String code = "private static int service$$;";
-        CtField field = new CtField(summerServiceBeanClass, "service__summer", subClass);
-        field.setModifiers(Modifier.STATIC);
+        String code = "private static " + SummerServiceBean.class.getName() + " service_______summer;";
+//        String code = "private static int service$$;";
+        CtField field = CtField.make(code, subClass);
+//        CtField field = new CtField(summerServiceBeanClass, "service_______summer", subClass);
+//        field.setModifiers(Modifier.STATIC);
         subClass.addField(field);
 
-        code = "public " + type + " sum(){ service__summer.sum(this); return this.getResult();}";
+        code = "public " + type + " sum(){ service_______summer.sum(this); return this.getResult();}";
+        CtMethod method = CtMethod.make(code, subClass);
 
-        CtMethod method = CtNewMethod.make(Modifier.STATIC|Modifier.PUBLIC, )
+//        CtMethod method = CtNewMethod.make(Modifier.STATIC|Modifier.PUBLIC, )
 
         subClass.addMethod(method);
 
@@ -198,5 +212,38 @@ class ServiceInit implements ApplicationContextAware{
             set.addAll(Arrays.asList(strings));
         }
         return set;
+    }
+    private  ArrayList<String> scanPackageClass(String basePackage) {
+        try {
+            PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+            CachingMetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(resourcePatternResolver);
+            String DEFAULT_RESOURCE_PATTERN = "**/*.class";
+            String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
+                ClassUtils.convertClassNameToResourcePath(SystemPropertyUtils.resolvePlaceholders(basePackage)) + "/" + DEFAULT_RESOURCE_PATTERN;
+            ArrayList<String> returnList = new ArrayList<String>();
+            Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
+            for (Resource resource : resources) {
+                //检查resource，这里的resource都是class
+                if (resource.isReadable()) {
+                    MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);
+                    if (metadataReader != null) {
+                        ClassMetadata classMetadata = metadataReader.getClassMetadata();
+                        String className = classMetadata.getClassName();
+                        returnList.add(className);
+                        if(true) continue;
+                        String superClassName = classMetadata.getSuperClassName();
+                        if(isNull(superClassName)) continue;
+                        if(className.contains("TestModel2")){
+                            String a = "";
+                        }
+                        if(superClassName.contains("Summer"))
+                        returnList.add(className);
+                    }
+                }
+            }
+            return returnList;
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
     }
 }
