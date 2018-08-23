@@ -6,6 +6,8 @@ public abstract class Summer<R> {
     private transient Object context;
     private transient R result;
 
+    public R sum(){ return null; }
+
     public R baseSum(){
         try {
             Call.call(this);

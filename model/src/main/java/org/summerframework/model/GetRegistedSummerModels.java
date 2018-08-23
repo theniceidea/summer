@@ -3,10 +3,12 @@ package org.summerframework.model;
 import java.util.Set;
 
 public class GetRegistedSummerModels extends Summer<Set<Class<?>>> implements LocalSummer {
-    private static SummerServiceBean<Set<Class<?>>> service;
+    private static SummerServiceBean<GetRegistedSummerModels> service;
 
-    public static Set<Class<?>> sum(){
-        return service.sum(new GetRegistedSummerModels());
+    @Override
+    public Set<Class<?>> sum(){
+        service.sum(this);
+        return this.getResult();
     }
 
 }

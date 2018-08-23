@@ -1,5 +1,8 @@
 package org.summerframework.core.srv;
 
+import com.sun.org.apache.bcel.internal.classfile.AccessFlags;
+import javassist.*;
+import javassist.bytecode.FieldInfo;
 import org.summerframework.model.ExcludeStrategyClass;
 import org.summerframework.model.SummerService;
 import org.summerframework.core.base.*;
@@ -9,16 +12,23 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.summerframework.model.SummerServiceBean;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
 
 @Component
 class ServiceInit implements ApplicationContextAware{
+
+    private static HashMap<Class<?>, Class<?>> MakedModelClasses = new HashMap<>();
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -49,9 +59,81 @@ class ServiceInit implements ApplicationContextAware{
                 if(null == method1) continue;
                 if(isExclude(excludes, targetClass)) continue;
                 if(isExclude(strategyBeans, targetClass, method.getName())) continue;
-                Manager.register(types[0], new ServiceItemImpl(bean, method1));
+
+                install((Class<? extends Summer>) types[0], targetClass, bean, method1);
+//                Manager.register(types[0], new ServiceItemImpl(bean, method1));
             }
         }
+    }
+    private void install(Class<? extends Summer> modelClass, Class<?> beanClass, Object bean, Method method) {
+        try {
+            Class<?> makeClass = makeClass(modelClass);
+            Field service = makeClass.getDeclaredField("service__summer");
+            service.setAccessible(true);
+            if(SummerServiceBean.class.isAssignableFrom(beanClass) && "sum".equals(method.getName())){
+                Type[] genericInterfaces = beanClass.getGenericInterfaces();
+                for(Type face : genericInterfaces){
+                    ParameterizedType ptype =  (ParameterizedType)face;
+                    if(!ptype.getRawType().equals(SummerServiceBean.class)){ continue;}
+                    if(ptype.getActualTypeArguments()[0].equals(modelClass)){
+                        service.set(null, bean);
+                        return;
+                    }
+                }
+            }
+            service.set(null, new MethodService(bean, method));
+        } catch (NoSuchFieldException | IllegalAccessException | NotFoundException | CannotCompileException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    private void install2(Class<?> modelClass, Class<?> beanClass, Object bean, Method method){
+        try {
+            Field service = modelClass.getDeclaredField("service");
+            service.setAccessible(true);
+            if(SummerServiceBean.class.isAssignableFrom(beanClass) && "sum".equals(method.getName())){
+                Type[] genericInterfaces = beanClass.getGenericInterfaces();
+                for(Type face : genericInterfaces){
+                    ParameterizedType ptype =  (ParameterizedType)face;
+                    if(!ptype.getRawType().equals(SummerServiceBean.class)){ continue;}
+                    if(ptype.getActualTypeArguments()[0].equals(modelClass)){
+                        service.set(null, bean);
+                        return;
+                    }
+                }
+            }
+            service.set(null, new MethodService(bean, method));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private Class<?> makeClass(Class<? extends Summer> kls) throws NotFoundException, CannotCompileException {
+        if(MakedModelClasses.containsKey(kls)) return MakedModelClasses.get(kls);
+
+        String type = ((ParameterizedType)kls.getGenericSuperclass()).getActualTypeArguments()[0].toString();
+        ClassPool classPool = ClassPool.getDefault();
+        CtClass summerServiceBeanClass = classPool.get(SummerServiceBean.class.getName());
+        CtClass summerClass = classPool.get(kls.getName());
+
+        CtClass subClass = classPool.makeClass(kls.getName() + "$$Summer", summerClass);
+//        String code = "private " + SummerServiceBean.class.getName() + "<" + kls.getName() + "> service$$;";
+        String code = "private static int service$$;";
+        CtField field = new CtField(summerServiceBeanClass, "service__summer", subClass);
+        field.setModifiers(Modifier.STATIC);
+        subClass.addField(field);
+
+        code = "public " + type + " sum(){ service__summer.sum(this); return this.getResult();}";
+
+        CtMethod method = CtNewMethod.make(Modifier.STATIC|Modifier.PUBLIC, )
+
+        subClass.addMethod(method);
+
+        Class klass = subClass.toClass();
+        MakedModelClasses.put(kls, klass);
+
+        return klass;
     }
     private boolean isSummerStandardMethod(Method method){
         Class<?>[] parameterTypes = method.getParameterTypes();

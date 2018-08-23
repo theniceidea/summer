@@ -1,9 +1,9 @@
 package org.summerframework.model;
 
-public class NotFoundSummerServiceBean implements SummerServiceBean<Object>{
+public class NotFoundSummerServiceBean implements SummerServiceBean<Summer>{
 
     @Override
-    public Object sum(Summer<Object> summer) {
+    public void sum(Summer summer) {
         throw new RuntimeException("service "+summer.getClass().getName()+" not found;");
     }
 }
