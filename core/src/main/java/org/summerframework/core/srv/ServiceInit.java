@@ -1,8 +1,6 @@
 package org.summerframework.core.srv;
 
-import com.sun.org.apache.bcel.internal.classfile.AccessFlags;
 import javassist.*;
-import javassist.bytecode.FieldInfo;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -10,6 +8,7 @@ import org.springframework.core.type.ClassMetadata;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.SystemPropertyUtils;
 import org.summerframework.model.ExcludeStrategyClass;
 import org.summerframework.model.SummerService;
@@ -23,12 +22,13 @@ import org.springframework.stereotype.Component;
 import org.summerframework.model.SummerServiceBean;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -41,6 +41,7 @@ class ServiceInit implements ApplicationContextAware{
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+
         Set<String> excludes = excludePackages(applicationContext);
         List<ExcludeStrategy> strategyBeans = getStrategyBeans(applicationContext);
 
@@ -119,8 +120,6 @@ class ServiceInit implements ApplicationContextAware{
     }
 
     private Class<?> makeClass(Class<? extends Summer> kls) throws NotFoundException, CannotCompileException {
-        scanPackageClass("");
-
         if(MakedModelClasses.containsKey(kls)) return MakedModelClasses.get(kls);
 
         Type type1 = ((ParameterizedType) kls.getGenericSuperclass()).getActualTypeArguments()[0];
@@ -212,38 +211,5 @@ class ServiceInit implements ApplicationContextAware{
             set.addAll(Arrays.asList(strings));
         }
         return set;
-    }
-    private  ArrayList<String> scanPackageClass(String basePackage) {
-        try {
-            PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
-            CachingMetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(resourcePatternResolver);
-            String DEFAULT_RESOURCE_PATTERN = "**/*.class";
-            String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
-                ClassUtils.convertClassNameToResourcePath(SystemPropertyUtils.resolvePlaceholders(basePackage)) + "/" + DEFAULT_RESOURCE_PATTERN;
-            ArrayList<String> returnList = new ArrayList<String>();
-            Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
-            for (Resource resource : resources) {
-                //检查resource，这里的resource都是class
-                if (resource.isReadable()) {
-                    MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);
-                    if (metadataReader != null) {
-                        ClassMetadata classMetadata = metadataReader.getClassMetadata();
-                        String className = classMetadata.getClassName();
-                        returnList.add(className);
-                        if(true) continue;
-                        String superClassName = classMetadata.getSuperClassName();
-                        if(isNull(superClassName)) continue;
-                        if(className.contains("TestModel2")){
-                            String a = "";
-                        }
-                        if(superClassName.contains("Summer"))
-                        returnList.add(className);
-                    }
-                }
-            }
-            return returnList;
-        }catch (IOException e){
-            throw new RuntimeException(e);
-        }
     }
 }
