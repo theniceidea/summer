@@ -10,7 +10,7 @@ public class CallRestrpcSummer extends Summer<CallSummerResult>{
 
         mod.setSummer(summer);
 
-        return mod.baseSum();
+        return mod.sum();
     }
 
     public Summer getSummer() {

@@ -8,7 +8,7 @@ public class GetRestrpcEntry extends Summer<String> {
     public static String sum(Summer<?> summer){
         GetRestrpcEntry model = new GetRestrpcEntry();
         model.setSummer(summer);
-        return model.baseSum();
+        return model.sum();
     }
 
     public Summer<?> getSummer() {

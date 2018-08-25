@@ -14,7 +14,7 @@ public class DemoSummer1 extends Summer<Boolean> implements Serializable{
         summer.setField1(field1);
         summer.setField2(field2);
 
-        return summer.baseSum();
+        return summer.sum();
     }
 
     public String getField1() {

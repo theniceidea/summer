@@ -169,7 +169,7 @@ public class RestrpcEntryManager implements ApplicationListener<EmbeddedServletC
             logger.warning("没有获得ip地址,服务注册失败");
         }
 
-        Set<Class<?>> classes = GetRegistedSummerModels.sum();
+        Set<Class<?>> classes = Summer.instance(GetRegistedSummerModels.class).sum();
         HashMap<String, String> map = new HashMap<>();
         classes.forEach(cls->{
             if(LocalSummer.class.isAssignableFrom(cls)) { return; }

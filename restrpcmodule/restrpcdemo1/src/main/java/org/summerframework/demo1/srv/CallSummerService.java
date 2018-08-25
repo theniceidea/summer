@@ -21,7 +21,7 @@ public class CallSummerService {
         csr.setErrMsg("");
         try {
             Summer summer = mod.getSummer();
-            Object o = summer.baseSum();
+            Object o = summer.sum();
             csr.setResult(o);
         }catch (Exception e){
             csr.setErrCode("-1");

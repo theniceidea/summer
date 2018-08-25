@@ -24,7 +24,7 @@ public class TestService implements ApplicationRunner{
     public void run(ApplicationArguments args) throws Exception {
         TestModel testModel = new TestModel();
         testModel.setField("0000000000000000000000000000");
-        testModel.baseSum();
+        testModel.sum();
         System.out.println(JSON.toJSONString(testModel));
     }
 }

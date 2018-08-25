@@ -11,7 +11,7 @@ public class ReceiveRestrpcSummer extends Summer<Void> {
         ReceiveRestrpcSummer summer = new ReceiveRestrpcSummer();
         summer.setRequest(request);
         summer.setResponse(response);
-        summer.baseSum();
+        summer.sum();
     }
 
     public Object getRequest() {

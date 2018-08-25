@@ -10,7 +10,7 @@ public class GetRestrpcEntries extends Summer<Set<String>> {
     public static Set<String> sum(String key){
         GetRestrpcEntries summer = new GetRestrpcEntries();
         summer.setClassName(key);
-        return summer.baseSum();
+        return summer.sum();
     }
 
     public String getClassName() {

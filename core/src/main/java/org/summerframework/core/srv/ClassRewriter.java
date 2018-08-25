@@ -25,9 +25,10 @@ public class ClassRewriter {
 
     protected static HashSet<Class<?>> SummerModelClasses = new HashSet<>();
 
-    public void rewrite(String ... scanSummerPackages){
-        List<String> summers = scanSummers(scanSummerPackages);
-        summers.forEach(this::rewriteClass);
+    public static void rewrite(String ... scanSummerPackages){
+        ClassRewriter classRewriter = new ClassRewriter();
+        List<String> summers = classRewriter.scanSummers(scanSummerPackages);
+        summers.forEach(classRewriter::rewriteClass);
     }
 
     private void rewriteClass(String kls) {
@@ -40,22 +41,17 @@ public class ClassRewriter {
     private void rewriteClass_(String kls) throws NotFoundException, CannotCompileException {
 
         ClassPool classPool = ClassPool.getDefault();
-        CtClass summerServiceBeanClass = classPool.get(SummerServiceBean.class.getName());
         CtClass summerClass = classPool.get(kls);
         CtClass subClass = summerClass;
 
-        String code = "private static " + SummerServiceBean.class.getName() + " service_______summer;";
-//        String code = "private static int service$$;";
+        String code = "private static " + SummerServiceBean.class.getName() + " SERVICE = org.summerframework.core.srv.UnInstallSummerServiceBean.Instance;";
         CtField field = CtField.make(code, subClass);
-//        CtField field = new CtField(summerServiceBeanClass, "service_______summer", subClass);
-//        field.setModifiers(Modifier.STATIC);
         subClass.addField(field);
 
-        code = "public Object sum(){ service_______summer.sum(this); return this.getResult();}";
+        code = "public Object sum(){ SERVICE.sum(this); return this.getResult();}";
 //        code = "public Object sum(){ return this.getResult();}";
         CtMethod method = CtMethod.make(code, subClass);
 
-//        CtMethod method = CtNewMethod.make(Modifier.STATIC|Modifier.PUBLIC, )
         try {
             CtMethod sum = subClass.getDeclaredMethod("sum", new CtClass[]{});
             if(nonNull(sum)){
@@ -70,13 +66,11 @@ public class ClassRewriter {
     private void scanPackageClass(String basePackage, Consumer<ClassMeta> consumer) {
         try {
             PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
-            SimpleMetadataReaderFactory metadataReaderFactory = new SimpleMetadataReaderFactory(resourcePatternResolver);
             String DEFAULT_RESOURCE_PATTERN = "**/*.class";
             String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
                 ClassUtils.convertClassNameToResourcePath(SystemPropertyUtils.resolvePlaceholders(basePackage)) + "/" + DEFAULT_RESOURCE_PATTERN;
             Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
             for (Resource resource : resources) {
-                //检查resource，这里的resource都是class
                 if (resource.isReadable()) {
                     try(BufferedInputStream is = new BufferedInputStream(resource.getInputStream())){
                         ClassReader classReader = new ClassReader(is);

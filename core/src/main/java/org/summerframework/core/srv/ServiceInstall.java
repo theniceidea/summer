@@ -1,43 +1,28 @@
 package org.summerframework.core.srv;
 
-import javassist.*;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.type.ClassMetadata;
-import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
-import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.SystemPropertyUtils;
-import org.summerframework.model.ExcludeStrategyClass;
-import org.summerframework.model.SummerService;
-import org.summerframework.core.base.*;
-import org.summerframework.model.Summer;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-import org.summerframework.model.SummerServiceBean;
+import org.summerframework.core.base.EnableSummer;
+import org.summerframework.core.base.ExcludeStrategy;
+import org.summerframework.model.*;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static java.util.Objects.requireNonNull;
 
 @Component
-class ServiceInit implements ApplicationContextAware{
+class ServiceInstall implements ApplicationContextAware{
 
-    private static HashMap<Class<?>, Class<?>> MakedModelClasses = new HashMap<>();
+    protected static HashMap<Class<?>, SummerServiceBean<?>> localServices = new HashMap<>();
+    protected static SummerServiceBean remoteSummerServiceBean;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -71,14 +56,13 @@ class ServiceInit implements ApplicationContextAware{
                 if(isExclude(strategyBeans, targetClass, method.getName())) continue;
 
                 install((Class<? extends Summer>) types[0], targetClass, bean, method1);
-//                Manager.register(types[0], new ServiceItemImpl(bean, method1));
             }
         }
     }
     private void install(Class<? extends Summer> modelClass, Class<?> beanClass, Object bean, Method method) {
         try {
-            Class<?> makeClass = makeClass(modelClass);
-            Field service = makeClass.getDeclaredField("service_______summer");
+            if(Summer.class.equals(modelClass)) return;
+            Field service = modelClass.getDeclaredField("SERVICE");
             service.setAccessible(true);
             if(SummerServiceBean.class.isAssignableFrom(beanClass) && "sum".equals(method.getName())){
                 Type[] genericInterfaces = beanClass.getGenericInterfaces();
@@ -87,66 +71,20 @@ class ServiceInit implements ApplicationContextAware{
                     if(!ptype.getRawType().equals(SummerServiceBean.class)){ continue;}
                     if(ptype.getActualTypeArguments()[0].equals(modelClass)){
                         service.set(null, bean);
+                        localServices.put(modelClass, (SummerServiceBean<?>) bean);
+                        if(Objects.equals(RemoteServiceSummer.class, modelClass)) remoteSummerServiceBean = (SummerServiceBean) bean;
                         return;
                     }
                 }
             }
-            service.set(null, new MethodService(bean, method));
-        } catch (NoSuchFieldException | IllegalAccessException | NotFoundException | CannotCompileException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-    private void install2(Class<?> modelClass, Class<?> beanClass, Object bean, Method method){
-        try {
-            Field service = modelClass.getDeclaredField("service");
-            service.setAccessible(true);
-            if(SummerServiceBean.class.isAssignableFrom(beanClass) && "sum".equals(method.getName())){
-                Type[] genericInterfaces = beanClass.getGenericInterfaces();
-                for(Type face : genericInterfaces){
-                    ParameterizedType ptype =  (ParameterizedType)face;
-                    if(!ptype.getRawType().equals(SummerServiceBean.class)){ continue;}
-                    if(ptype.getActualTypeArguments()[0].equals(modelClass)){
-                        service.set(null, bean);
-                        return;
-                    }
-                }
-            }
-            service.set(null, new MethodService(bean, method));
+            MethodService methodService = new MethodService(bean, method);
+            service.set(null, methodService);
+            localServices.put(modelClass, methodService);
+            if(Objects.equals(RemoteServiceSummer.class, modelClass)) remoteSummerServiceBean = methodService;
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
-    }
-
-    private Class<?> makeClass(Class<? extends Summer> kls) throws NotFoundException, CannotCompileException {
-        if(MakedModelClasses.containsKey(kls)) return MakedModelClasses.get(kls);
-
-        Type type1 = ((ParameterizedType) kls.getGenericSuperclass()).getActualTypeArguments()[0];
-        String type = ((ParameterizedType)type1).getRawType().getTypeName();
-        ClassPool classPool = ClassPool.getDefault();
-        CtClass summerServiceBeanClass = classPool.get(SummerServiceBean.class.getName());
-        CtClass summerClass = classPool.get(kls.getName());
-
-        CtClass subClass = classPool.makeClass(kls.getName() + "$$Summer", summerClass);
-        String code = "private static " + SummerServiceBean.class.getName() + " service_______summer;";
-//        String code = "private static int service$$;";
-        CtField field = CtField.make(code, subClass);
-//        CtField field = new CtField(summerServiceBeanClass, "service_______summer", subClass);
-//        field.setModifiers(Modifier.STATIC);
-        subClass.addField(field);
-
-        code = "public " + type + " sum(){ service_______summer.sum(this); return this.getResult();}";
-        CtMethod method = CtMethod.make(code, subClass);
-
-//        CtMethod method = CtNewMethod.make(Modifier.STATIC|Modifier.PUBLIC, )
-
-        subClass.addMethod(method);
-
-        Class klass = subClass.toClass();
-        MakedModelClasses.put(kls, klass);
-
-        return klass;
     }
     private boolean isSummerStandardMethod(Method method){
         Class<?>[] parameterTypes = method.getParameterTypes();

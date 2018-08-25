@@ -61,12 +61,12 @@ class RouterHandlerItem implements Handler<RoutingContext>{
             RestSucessModel resultModel = (RestSucessModel) model.inst(RestSucessModel.class);
             resultModel.setRoutingContext(routingContext);
             resultModel.setResult(model.getResult());
-            resultModel.baseSum();
+            resultModel.sum();
         }catch (Exception e){
             RestExceptionModel exceptionModel = (RestExceptionModel) model.inst(RestExceptionModel.class);
             exceptionModel.setRoutingContext(routingContext);
             exceptionModel.setException(e);
-            exceptionModel.baseSum();
+            exceptionModel.sum();
         }
     }
     private void writeBeanValue(String key, String value, Summer model){

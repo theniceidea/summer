@@ -1,5 +1,6 @@
 package org.summerframework.demo;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -17,8 +18,8 @@ public class DemoApplication {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 //        List<String> classList = ClassUtil.getClasses("org");
 //        classList.forEach(System.out::println);
-        new ClassRewriter().rewrite("org");
-        new RewriteTest().test();
-//        SpringApplication.run(DemoApplication.class, args);
+        ClassRewriter.rewrite("org");
+//        new RewriteTest().test();
+        SpringApplication.run(DemoApplication.class, args);
     }
 }

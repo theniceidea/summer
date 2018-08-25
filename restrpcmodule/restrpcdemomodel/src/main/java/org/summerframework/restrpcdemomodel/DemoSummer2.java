@@ -10,12 +10,12 @@ public class DemoSummer2 extends Summer<List<String>> implements Serializable{
     private int field2;
 
     public static List<String> sum(String field1, int field2){
-        DemoSummer2 summer = new DemoSummer2();
+        DemoSummer2 summer = Summer.instance(DemoSummer2.class);
 
         summer.setField1(field1);
         summer.setField2(field2);
 
-        return summer.baseSum();
+        return summer.sum();
     }
 
     public String getField1() {

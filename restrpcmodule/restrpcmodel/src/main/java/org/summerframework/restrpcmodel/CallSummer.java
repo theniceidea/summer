@@ -8,7 +8,7 @@ public class CallSummer extends Summer<CallSummerResult>{
     public static CallSummerResult sum(Summer summer){
         CallSummer callSummer = new CallSummer();
         callSummer.setSummer(summer);
-        return callSummer.baseSum();
+        return callSummer.sum();
     }
 
     public Summer getSummer() {

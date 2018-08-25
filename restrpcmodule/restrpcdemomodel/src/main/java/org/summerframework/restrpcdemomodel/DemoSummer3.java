@@ -15,7 +15,7 @@ public class DemoSummer3 extends Summer<String> implements Serializable{
         summer.setField1(field1);
         summer.setField2(field2);
 
-        return summer.baseSum();
+        return summer.sum();
     }
 
     public String getField1() {

@@ -2,6 +2,7 @@ package org.summerframework.demo2.srv;
 
 import com.alibaba.fastjson.JSON;
 import org.summerframework.model.RemoteServiceSummer;
+import org.summerframework.model.Summer;
 import org.summerframework.model.SummerService;
 import org.summerframework.demo1.model.TestModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class TestService implements ApplicationRunner{
 
         TestModel testModel = new TestModel();
         testModel.setField("0000000000000000000000000000");
-        testModel.baseSum();
+        testModel.sum();
         System.out.println(JSON.toJSONString(testModel));
-        GetRegistedSummerModels.sum().forEach(System.out::println);
+        Summer.instance(GetRegistedSummerModels.class).sum().forEach(System.out::println);
     }
 }

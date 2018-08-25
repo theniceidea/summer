@@ -5,12 +5,6 @@ import org.summerframework.model.Summer;
 import org.summerframework.model.SummerServiceBean;
 
 public class TestModel extends Summer<Object> {
-    private static SummerServiceBean<TestModel> service;
-    public static Object sum(){
-        TestModel summer = new TestModel();
-        service.sum(summer);
-        return summer.getResult();
-    }
     private Integer eventCode;
     private String field;
     private Object result;
