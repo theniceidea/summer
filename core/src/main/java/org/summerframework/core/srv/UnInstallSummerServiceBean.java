@@ -10,7 +10,6 @@ public class UnInstallSummerServiceBean implements SummerServiceBean<Summer> {
     @Override
     public void sum(Summer summer) {
         if(summer instanceof LocalSummer){
-            if(summer instanceof OptionalSummer) return;
             throw new RuntimeException("service " + summer.getClass()
                 .getName() + " not found");
         }
@@ -18,7 +17,6 @@ public class UnInstallSummerServiceBean implements SummerServiceBean<Summer> {
             RemoteServiceSummer model = RemoteServiceSummer.New(summer);
             ServiceInstall.remoteSummerServiceBean.sum(model);
         }else{
-            if(summer instanceof OptionalSummer) return;
             throw new RuntimeException("service " + summer.getClass()
                 .getName() + " not found");
         }

@@ -2,10 +2,9 @@ package org.summerframework.springproxyvertx.base;
 
 import org.summerframework.model.Summer;
 import org.summerframework.model.LocalSummer;
-import org.summerframework.model.OptionalSummer;
 import io.vertx.ext.web.RoutingContext;
 
-public class RestExceptionModel extends Summer implements LocalSummer, OptionalSummer {
+public class RestExceptionModel extends Summer implements LocalSummer {
 
     private RoutingContext routingContext;
     private Exception exception;
