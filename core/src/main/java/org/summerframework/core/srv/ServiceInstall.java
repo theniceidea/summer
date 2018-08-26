@@ -22,7 +22,10 @@ import static java.util.Objects.nonNull;
 class ServiceInstall implements ApplicationContextAware{
 
     protected static HashMap<Class<?>, SummerServiceBean<?>> localServices = new HashMap<>();
-    protected static SummerServiceBean remoteSummerServiceBean;
+
+    public static boolean installed(Class<?> kls){
+        return localServices.containsKey(kls);
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -72,7 +75,6 @@ class ServiceInstall implements ApplicationContextAware{
                     if(ptype.getActualTypeArguments()[0].equals(modelClass)){
                         service.set(null, bean);
                         localServices.put(modelClass, (SummerServiceBean<?>) bean);
-                        if(Objects.equals(RemoteServiceSummer.class, modelClass)) remoteSummerServiceBean = (SummerServiceBean) bean;
                         return;
                     }
                 }
@@ -80,7 +82,6 @@ class ServiceInstall implements ApplicationContextAware{
             MethodService methodService = new MethodService(bean, method);
             service.set(null, methodService);
             localServices.put(modelClass, methodService);
-            if(Objects.equals(RemoteServiceSummer.class, modelClass)) remoteSummerServiceBean = methodService;
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

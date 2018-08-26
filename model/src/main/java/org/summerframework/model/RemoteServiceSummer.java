@@ -1,7 +1,7 @@
 package org.summerframework.model;
 
 public class RemoteServiceSummer extends Summer {
-    public static RemoteServiceSummer New(Summer summerSum){
+    public static RemoteServiceSummer Instance(Summer summerSum){
         RemoteServiceSummer remoteServiceSum = new RemoteServiceSummer();
         remoteServiceSum.setSummerSum(summerSum);
         return remoteServiceSum;

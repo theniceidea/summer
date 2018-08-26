@@ -34,6 +34,5 @@ public class TestService implements ApplicationRunner{
         testModel.setField("0000000000000000000000000000");
         testModel.sum();
         System.out.println(JSON.toJSONString(testModel));
-        Summer.instance(GetRegistedSummerModels.class).sum().forEach(System.out::println);
     }
 }
