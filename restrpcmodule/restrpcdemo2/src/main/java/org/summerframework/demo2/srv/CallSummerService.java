@@ -13,6 +13,8 @@ import java.io.StringWriter;
 @Service
 @SummerService
 public class CallSummerService {
+
+    @SuppressWarnings("all")
     public void callSummer(CallSummer mod){
         CallSummerResult csr = new CallSummerResult();
         mod.setResult(csr);
@@ -29,6 +31,7 @@ public class CallSummerService {
             csr.setResult(getTrace(e));
         }
     }
+    @SuppressWarnings("all")
     private String getTrace(Exception e){
         StringWriter sw = null;
         PrintWriter pw = null;
