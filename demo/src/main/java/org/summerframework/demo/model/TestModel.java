@@ -1,10 +1,9 @@
 package org.summerframework.demo.model;
 
 
-import org.summerframework.model.Summer;
-import org.summerframework.model.SummerServiceBean;
+import org.summerframework.model.AsyncSummer;
 
-public class TestModel extends Summer<String> {
+public class TestModel extends AsyncSummer<String> {
 
     private String field;
 

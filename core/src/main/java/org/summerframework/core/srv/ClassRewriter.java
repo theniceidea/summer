@@ -44,7 +44,8 @@ public class ClassRewriter {
         CtClass summerClass = classPool.get(kls);
         CtClass subClass = summerClass;
 
-        String code = "private static " + SummerServiceBean.class.getName() + " SERVICE = org.summerframework.core.srv.UnInstallSummerServiceBean.Instance;";
+
+        String code = "private static " + SummerServiceBean.class.getName() + " SERVICE = "+UnInstallSummerServiceBean.class.getName()+".Instance;";
         CtField field = CtField.make(code, subClass);
         subClass.addField(field);
 
