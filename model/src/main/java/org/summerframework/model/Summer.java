@@ -1,9 +1,9 @@
 package org.summerframework.model;
 
-//import java.lang.reflect.InvocationTargetException;
-
 public abstract class Summer<R> {
     private transient Object context;
+    private transient int entryNumber;
+    private transient Summer parent;
     private transient R result;
 
     public static <T extends Summer> T instance(Class<T> kls){
@@ -16,20 +16,32 @@ public abstract class Summer<R> {
 
     public R sum(){ return null; }
 
-//    public R sum(){
-//        try {
-//            Call.call(this);
-//            return this.getResult();
-//        } catch (InvocationTargetException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
-//            throw new RuntimeException(e.getMessage(), e);
-//        }
-//    }
+    public void retun(){
+        this.parent.sum();
+    }
+    public void retun(R result){
+        this.setResult(result);
+        this.parent.sum();
+    }
 
-    public <T extends Summer> T inst(Class<T> cls){
+    public boolean entry(int number){
+        return this.entryNumber == number;
+    }
+
+    public Summer<R> a(int entryNumber) {
+        this.entryNumber = entryNumber;
+        return this;
+    }
+
+    public <E extends Summer> E b(Class<E> cls){
+        return this.instanceWithContext(cls);
+    }
+    public <E extends Summer> E instanceWithContext(Class<E> cls){
         try {
-            T t = cls.newInstance();
-            t.setContext(context);
-            return t;
+            Summer t = cls.newInstance();
+            t.context = this.context;
+            t.parent = this;
+            return (E) t;
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -47,7 +59,7 @@ public abstract class Summer<R> {
         return context;
     }
 
-    public void setContext(Object context) {
-        this.context = context;
+    public int getEntryNumber() {
+        return entryNumber;
     }
 }

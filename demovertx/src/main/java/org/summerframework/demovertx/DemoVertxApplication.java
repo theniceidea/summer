@@ -1,6 +1,7 @@
 package org.summerframework.demovertx;
 
 import org.summerframework.core.base.EnableSummer;
+import org.summerframework.core.srv.ClassRewriter;
 import org.summerframework.springproxyvertx.base.EnableSpringProxyVertx;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableSpringProxyVertx
 public class DemoVertxApplication {
     public static void main(String[] args) {
+        ClassRewriter.rewrite("org");
         SpringApplication.run(DemoVertxApplication.class, args);
     }
 }

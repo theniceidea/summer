@@ -20,6 +20,7 @@
         <module>demo</module>
         <module>restrpcmodule</module>
         <module>demovertx</module>
+        <module>demovertx2</module>
     </modules>
 
     <properties>
@@ -69,6 +70,11 @@
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-web</artifactId>
+                <version>3.5.2</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-redis-client</artifactId>
                 <version>3.5.2</version>
             </dependency>
             <dependency>

@@ -14,7 +14,7 @@ public class TestController {
 
     @GetMapping("test1")
     public String test1(){
-//        return TestModel.inst().sum();
+//        return TestModel.instanceWithContext().sum();
         List<String> list = DemoSummer2.sum("1", 10);
         StringBuilder builder = new StringBuilder();
         list.forEach(mod->{

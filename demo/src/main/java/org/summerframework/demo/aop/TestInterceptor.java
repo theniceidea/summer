@@ -1,4 +1,4 @@
-package org.summerframework.demo1.aop;
+package org.summerframework.demo.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

@@ -1,4 +1,4 @@
-package org.summerframework.demo.srv;
+package org.summerframework.demo1.srv;
 
 import org.summerframework.core.base.ExcludeStrategy;
 import org.summerframework.model.ExcludeStrategyClass;

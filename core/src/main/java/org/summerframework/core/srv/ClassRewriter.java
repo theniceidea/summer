@@ -10,7 +10,6 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.util.SystemPropertyUtils;
-import org.summerframework.model.AsyncSummer;
 import org.summerframework.model.Summer;
 import org.summerframework.model.SummerServiceBean;
 
@@ -120,7 +119,6 @@ public class ClassRewriter {
 
             parentClasses = subClasses;
         }
-        classes.remove(AsyncSummer.class.getName());
         return classes;
     }
 }

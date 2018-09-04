@@ -58,12 +58,12 @@ class RouterHandlerItem implements Handler<RoutingContext>{
     private void invoke(RoutingContext routingContext, Summer model){
         try {
             this.method.invoke(this.bean, model);
-            RestSucessModel resultModel = (RestSucessModel) model.inst(RestSucessModel.class);
+            RestSucessModel resultModel = (RestSucessModel) model.instanceWithContext(RestSucessModel.class);
             resultModel.setRoutingContext(routingContext);
             resultModel.setResult(model.getResult());
             resultModel.sum();
         }catch (Exception e){
-            RestExceptionModel exceptionModel = (RestExceptionModel) model.inst(RestExceptionModel.class);
+            RestExceptionModel exceptionModel = (RestExceptionModel) model.instanceWithContext(RestExceptionModel.class);
             exceptionModel.setRoutingContext(routingContext);
             exceptionModel.setException(e);
             exceptionModel.sum();

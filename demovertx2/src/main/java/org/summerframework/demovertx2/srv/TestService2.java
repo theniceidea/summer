@@ -1,6 +1,6 @@
-package org.summerframework.demo.srv;
+package org.summerframework.demo1.srv;
 
-import org.summerframework.demo.model.TestModel;
+import org.summerframework.demovertx2.model.TestModel;
 import org.summerframework.model.SummerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

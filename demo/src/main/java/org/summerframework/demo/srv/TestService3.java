@@ -18,10 +18,9 @@ public class TestService3 {
     public void task2(TestModelCtx model){
         if(model.entry(0)) {
             model.randomNumber = new Random().nextInt(10);
-        }else if(model.entry(100)){
+        }
+        if(model.entry(100)){
             model.userId = "";
-        }else {
-            model.setEntryNumber(0);
         }
 
     }
