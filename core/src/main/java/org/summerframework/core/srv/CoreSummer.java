@@ -16,6 +16,6 @@ public class CoreSummer implements SummerServiceBean<GetRegistedSummerModels>{
             .localServices
             .keySet();
 
-        summer.setResult(classes);
+        summer.setSummerResult(classes);
     }
 }

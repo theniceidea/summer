@@ -2,7 +2,6 @@ package org.summerframework.demovertx.model;
 
 
 import org.summerframework.model.Summer;
-import org.summerframework.model.SummerServiceBean;
 
 public class TestModel extends Summer<Object> {
     private Integer eventCode;
@@ -26,11 +25,11 @@ public class TestModel extends Summer<Object> {
     }
 
     @Override
-    public Object getResult() {
+    public Object getSummerResult() {
         return result;
     }
 
-    public void setResult(Object result) {
-        this.result = result;
+    public void setSummerResult(Object summerResult) {
+        this.result = summerResult;
     }
 }

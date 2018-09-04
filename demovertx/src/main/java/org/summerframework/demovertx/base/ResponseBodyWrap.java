@@ -10,7 +10,7 @@ public class ResponseBodyWrap {
 
     @SummerService
     public void bodyWrap(RestSucessModel model){
-        Object result = model.getResult();
+        Object result = model.getSummerResult();
         model
             .getRoutingContext()
             .response()

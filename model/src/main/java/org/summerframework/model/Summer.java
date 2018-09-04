@@ -1,10 +1,11 @@
 package org.summerframework.model;
 
 public abstract class Summer<R> {
-    private transient Object context;
-    private transient int entryNumber;
-    private transient Summer parent;
-    private transient R result;
+    private transient Object summerContext;
+    private transient int summerEntryNumber;
+    private transient Summer summerParent;
+    private transient AsyncSummerStack summerStack;
+    private transient R summerResult;
 
     public static <T extends Summer> T instance(Class<T> kls){
         try {
@@ -17,19 +18,33 @@ public abstract class Summer<R> {
     public R sum(){ return null; }
 
     public void retun(){
-        this.parent.sum();
+        this.summerParent.sum();
     }
     public void retun(R result){
-        this.setResult(result);
-        this.parent.sum();
+        this.setSummerResult(result);
+        this.summerParent.sum();
+    }
+
+    public <T extends AsyncSummerStack> T stack(Class<T> cls){
+        if(null == this.summerStack){
+            try {
+                this.summerStack = cls.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return (T) this.summerStack;
+    }
+    public boolean exception(){
+
     }
 
     public boolean entry(int number){
-        return this.entryNumber == number;
+        return this.summerEntryNumber == number;
     }
 
     public Summer<R> a(int entryNumber) {
-        this.entryNumber = entryNumber;
+        this.summerEntryNumber = entryNumber;
         return this;
     }
 
@@ -39,27 +54,27 @@ public abstract class Summer<R> {
     public <E extends Summer> E instanceWithContext(Class<E> cls){
         try {
             Summer t = cls.newInstance();
-            t.context = this.context;
-            t.parent = this;
+            t.summerContext = this.summerContext;
+            t.summerParent = this;
             return (E) t;
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
     }
 
-    public R getResult() {
-        return result;
+    public R getSummerResult() {
+        return summerResult;
     }
 
-    public void setResult(R result) {
-        this.result = result;
+    public void setSummerResult(R summerResult) {
+        this.summerResult = summerResult;
     }
 
-    public Object getContext() {
-        return context;
+    public Object getSummerContext() {
+        return summerContext;
     }
 
-    public int getEntryNumber() {
-        return entryNumber;
+    public int getSummerEntryNumber() {
+        return summerEntryNumber;
     }
 }

@@ -17,7 +17,7 @@ public class CallSummerService {
     @SuppressWarnings("all")
     public void callSummer(CallSummer mod){
         CallSummerResult csr = new CallSummerResult();
-        mod.setResult(csr);
+        mod.setSummerResult(csr);
 
         csr.setErrCode("0");
         csr.setErrMsg("");

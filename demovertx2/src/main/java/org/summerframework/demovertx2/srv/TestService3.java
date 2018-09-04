@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.summerframework.demovertx2.model.RedisGet;
 import org.summerframework.demovertx2.model.TestModel;
+import org.summerframework.model.AsyncSummerStack;
 import org.summerframework.model.SummerService;
 
 @Service
@@ -15,7 +16,7 @@ public class TestService3 {
     @Autowired
     private RedisClient redisClient;
 
-    class TestModelCtx extends TestModel{
+    public static class TestModelStack extends AsyncSummerStack{
         public int randomNumber;
         public String userId;
         public RedisGet redisGet;
@@ -24,13 +25,13 @@ public class TestService3 {
         redisClient.get(m.getKey(), r -> m.retun(r.succeeded() ? r.result() : null));
     }
 //    @SummerService(value = false)
-    public void task2(TestModelCtx model){
-        model.getClass().
+    public void task2(TestModel model){
+        TestModelStack stack = model.stack(TestModelStack.class);
         if(model.entry(0)) {
-            model.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
+            stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
         }else if(model.entry(100)){
             System.out.println("===================================");
-            System.out.println(model.redisGet.getResult());
+            System.out.println(stack.redisGet.getSummerResult());
             System.out.println("===================================");
         }
 

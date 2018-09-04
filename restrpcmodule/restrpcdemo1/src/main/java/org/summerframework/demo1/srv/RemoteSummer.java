@@ -19,7 +19,7 @@ public class RemoteSummer {
             if(StringUtils.isEmpty(result.getResult())) { return; }
 
             Summer summerResult = JSON.parseObject((String) result.getResult(), summer.getClass());
-            summer.setResult(summerResult.getResult());
+            summer.setSummerResult(summerResult.getSummerResult());
 
         }else if("-1".equals(result.getErrCode())){
             throw new RuntimeException((String) result.getResult());

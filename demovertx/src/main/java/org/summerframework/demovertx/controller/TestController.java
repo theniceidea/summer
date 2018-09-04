@@ -29,9 +29,9 @@ public class TestController {
 //        System.out.println("=======================================");
 //        System.out.println(s);
 //        System.out.println("=======================================");
-        testModel.setResult(true);
+        testModel.setSummerResult(true);
 
-        return (boolean) testModel.getResult();
+        return (boolean) testModel.getSummerResult();
     }
 
 }

@@ -92,7 +92,7 @@ public class RestrpcEntryManager implements ApplicationListener<EmbeddedServletC
             result.setErrMsg(errMsg);
             result.setResult(body);
 
-            callRestrpcSummer.setResult(result);
+            callRestrpcSummer.setSummerResult(result);
 
             return;
         }
@@ -148,17 +148,17 @@ public class RestrpcEntryManager implements ApplicationListener<EmbeddedServletC
         }
 
         int i = random.nextInt(rpcEntries.size());
-        model.setResult(rpcEntries.get(i));
+        model.setSummerResult(rpcEntries.get(i));
     }
     public void getRestrpcEntries(GetRestrpcEntries model){
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         Set<String> keys = redisTemplate.keys("summer-rpc-"+model.getClassName() + "*");
         List<String> strings = ops.multiGet(keys);
         if(CollectionUtils.isEmpty(strings)) {
-            model.setResult(new HashSet<>(0));
+            model.setSummerResult(new HashSet<>(0));
             return;
         }
-        model.setResult(new HashSet<>(strings));
+        model.setSummerResult(new HashSet<>(strings));
     }
 
     @Scheduled(cron = "0/1 * * * * ?")

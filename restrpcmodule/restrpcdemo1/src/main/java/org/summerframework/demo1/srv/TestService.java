@@ -18,7 +18,7 @@ public class TestService implements ApplicationRunner{
 
     @SummerService()
     public void task(TestModel model){
-        model.setResult("hahahiiiiii");
+        model.setSummerResult("hahahiiiiii");
     }
     @SummerService(false)
     public void task(RemoteServiceSummer model){

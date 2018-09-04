@@ -13,7 +13,7 @@ import java.util.List;
 @SummerService
 public class DemoSummerService {
     public void demoSummer(DemoSummer1 mod){
-        mod.setResult(true);
+        mod.setSummerResult(true);
     }
     public void demoSummer(DemoSummer2 mod){
         List<String> list = new ArrayList<>();
@@ -23,7 +23,7 @@ public class DemoSummerService {
         }
         String ret = DemoSummer3.sum("n", 2);
         list.add(ret);
-        mod.setResult(list);
+        mod.setSummerResult(list);
 
     }
 }

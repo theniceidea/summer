@@ -8,7 +8,7 @@ public class RewriteTest {
         TestModel5 testModel5 = new TestModel5();
         HashSet<String> strings = new HashSet<>();
         strings.add("sdfasdf");
-        testModel5.setResult(strings);
+        testModel5.setSummerResult(strings);
 
         Set<String> sum = testModel5.sum();
         System.out.println("");
