@@ -4,7 +4,7 @@ public abstract class Summer<R> {
     private transient Object summerContext;
     private transient int summerEntryNumber;
     private transient Summer summerParent;
-    private transient AsyncSummerStack summerStack;
+    private transient SceneStack summerStack;
     private transient R summerResult;
 
     public static <T extends Summer> T instance(Class<T> kls){
@@ -25,7 +25,7 @@ public abstract class Summer<R> {
         this.summerParent.sum();
     }
 
-    public <T extends AsyncSummerStack> T stack(Class<T> cls){
+    public <T extends SceneStack> T recovery(Class<T> cls){
         if(null == this.summerStack){
             try {
                 this.summerStack = cls.newInstance();
@@ -35,9 +35,6 @@ public abstract class Summer<R> {
         }
         return (T) this.summerStack;
     }
-//    public boolean exception(){
-//
-//    }
 
     public boolean entry(int number){
         return this.summerEntryNumber == number;

@@ -1,6 +1,6 @@
 package org.summerframework.model;
 
-public class AsyncSummerStack {
+public class SceneStack {
     private Exception summerException;
 
     public Exception getSummerException() {
