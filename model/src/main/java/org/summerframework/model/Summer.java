@@ -35,9 +35,9 @@ public abstract class Summer<R> {
         }
         return (T) this.summerStack;
     }
-    public boolean exception(){
-
-    }
+//    public boolean exception(){
+//
+//    }
 
     public boolean entry(int number){
         return this.summerEntryNumber == number;
