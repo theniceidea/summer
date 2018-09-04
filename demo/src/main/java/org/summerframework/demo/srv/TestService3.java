@@ -2,7 +2,6 @@ package org.summerframework.demo.srv;
 
 import org.springframework.stereotype.Service;
 import org.summerframework.demo.model.TestModel;
-import org.summerframework.model.AsyncSummer;
 import org.summerframework.model.SummerService;
 
 import java.util.Random;
@@ -17,12 +16,12 @@ public class TestService3 {
     }
     @SummerService(value = false)
     public void task2(TestModelCtx model){
-        if(model.reentry(0)) {
+        if(model.entry(0)) {
             model.randomNumber = new Random().nextInt(10);
-        }else if(model.reentry(100)){
+        }else if(model.entry(100)){
             model.userId = "";
         }else {
-            model.setReentryNumber(0);
+            model.setEntryNumber(0);
         }
 
     }
