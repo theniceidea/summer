@@ -3,6 +3,7 @@ package org.summerframework.model;
 public abstract class AsyncSummer<R> extends Summer<R> {
     protected transient int summerEntryNumber;
     protected transient SceneStack summerStack;
+    protected transient AsyncSummerResult<R> asyncSummerResult;
 
     protected void reentry(){
         this.sum();

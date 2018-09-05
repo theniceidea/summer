@@ -1,11 +1,11 @@
 package org.summerframework.model;
 
-public class AsyncFirstSummer<T> extends AsyncSummer<T>{
+public class AsyncRootSummer<T> extends AsyncSummer<T>{
 
     private AsyncSummerResult<T> asyncSummerResult;
     private Summer<T> summer;
 
-    public AsyncFirstSummer(Summer<T> summer){
+    public AsyncRootSummer(Summer<T> summer){
         this.summer = summer;
         this.bindContext(summer);
     }
