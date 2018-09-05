@@ -19,23 +19,20 @@ public class TestService4 extends SceneStack{
 
     public void redisGet(RedisGet m){
         //create Hander
-        redisClient.get(m.getKey(), r -> m.retun(r.succeeded() ? r.result() : null));
+//        redisClient.get(m.getKey(), r -> m.retun(r.succeeded() ? r.result() : null));
+        redisClient.get(m.getKey(), r -> m.fireException(new RuntimeException("uuuuuuuuuu")));
     }
 //    @SummerService(false)
     public void task2(TestModel model){
-        try {
-            TestService4 stack = model.recovery(TestService4.class);
-            if (model.entry(0)) {
-                stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
-            } else if (model.entry(100)) {
-                System.out.println("+++++++++++++++++++++++++++++++++++");
-                System.out.println(stack.redisGet.getSummerResult());
-                System.out.println("+++++++++++++++++++++++++++++++++++");
-            }
-        }finally {
-
+        TestService4 stack = model.recovery(TestService4.class);
+        if (model.entry(0)) {
+            stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
+        }else if (model.entry(100)) {
+            System.out.println("+++++++++++++++++++++++++++++++++++");
+            System.out.println(stack.redisGet.getSummerResult());
+            System.out.println("+++++++++++++++++++++++++++++++++++");
+            model.retun(stack.redisGet.getSummerResult());
         }
-
     }
 
 }

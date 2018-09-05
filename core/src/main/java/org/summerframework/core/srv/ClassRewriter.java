@@ -49,7 +49,7 @@ public class ClassRewriter {
         CtField field = CtField.make(code, subClass);
         subClass.addField(field);
 
-        code = "public Object sum(){ SERVICE.sum(this); return this.getSummerResult();}";
+        code = "public Object sum(){ try{SERVICE.sum(this);}catch(RuntimeException e){ if(null==this.summerStack) {throw e;}else{ this.fireException(e); } } return this.getSummerResult();}";
 //        code = "public Object sum(){ return this.getSummerResult();}";
         CtMethod method = CtMethod.make(code, subClass);
 

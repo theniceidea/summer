@@ -1,8 +1,9 @@
 package org.summerframework.demovertx2.model;
 
+import org.summerframework.model.AsyncSummer;
 import org.summerframework.model.Summer;
 
-public class RedisGet extends Summer<String> {
+public class RedisGet extends AsyncSummer<String> {
     private String key;
 
     public RedisGet c(String key){
