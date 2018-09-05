@@ -9,32 +9,28 @@ import org.summerframework.model.SceneStack;
 import org.summerframework.model.SummerService;
 
 @Service
-@SummerService(false)
-public class TestService3 {
-    private String redisKey = "wechat://accounts://wx82f2d8729b753f35";
+@SummerService
+public class TestService4 extends SceneStack{
+    private static String redisKey = "wechat://accounts://wx82f2d8729b753f35";
 
     @Autowired
     private RedisClient redisClient;
+    private RedisGet redisGet;
 
-    public static class TestModelStack extends SceneStack {
-        public int randomNumber;
-        public String userId;
-        public RedisGet redisGet;
-    }
     public void redisGet(RedisGet m){
         //create Hander
         redisClient.get(m.getKey(), r -> m.retun(r.succeeded() ? r.result() : null));
     }
-    @SummerService(value = false)
-    public void task2(TestModel model, TestModelStack stack){
+//    @SummerService(false)
+    public void task2(TestModel model){
         try {
-            stack = model.recovery(TestModelStack.class);
+            TestService4 stack = model.recovery(TestService4.class);
             if (model.entry(0)) {
                 stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
             } else if (model.entry(100)) {
-                System.out.println("===================================");
+                System.out.println("+++++++++++++++++++++++++++++++++++");
                 System.out.println(stack.redisGet.getSummerResult());
-                System.out.println("===================================");
+                System.out.println("+++++++++++++++++++++++++++++++++++");
             }
         }finally {
 

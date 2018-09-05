@@ -16,8 +16,9 @@ public class TestService implements ApplicationRunner{
     @Autowired
     private TestService testService;
 
-    @SummerService()
+    @SummerService(false)
     public void task(TestModel model){
+        System.out.println("0000000000000000");
         System.out.println(model.getField());
     }
     @SummerService(false)

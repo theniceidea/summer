@@ -14,12 +14,15 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Component
 class ServiceInstall implements ApplicationContextAware{
+
+    private static Logger logger = Logger.getLogger(ServiceInstall.class.getName());
 
     protected static HashMap<Class<?>, SummerServiceBean<?>> localServices = new HashMap<>();
 
@@ -30,6 +33,7 @@ class ServiceInstall implements ApplicationContextAware{
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
+        logger.info("======install summer=================================================");
         Set<String> excludes = excludePackages(applicationContext);
         List<ExcludeStrategy> strategyBeans = getStrategyBeans(applicationContext);
 
@@ -61,6 +65,7 @@ class ServiceInstall implements ApplicationContextAware{
                 install((Class<? extends Summer>) types[0], targetClass, bean, method1);
             }
         }
+        logger.info("======install summer=================================================");
     }
     private void install(Class<? extends Summer> modelClass, Class<?> beanClass, Object bean, Method method) {
         try {
@@ -74,18 +79,26 @@ class ServiceInstall implements ApplicationContextAware{
                     if(!ptype.getRawType().equals(SummerServiceBean.class)){ continue;}
                     if(ptype.getActualTypeArguments()[0].equals(modelClass)){
                         service.set(null, bean);
-                        localServices.put(modelClass, (SummerServiceBean<?>) bean);
+                        logger.info("install summer class:"+modelClass.getName()+"; bean:"+bean.getClass()+"; method:");
+                        putLocalServices(modelClass, (SummerServiceBean<?>) bean);
                         return;
                     }
                 }
             }
             MethodService methodService = new MethodService(bean, method);
             service.set(null, methodService);
-            localServices.put(modelClass, methodService);
+            logger.info("install summer class:"+modelClass.getName()+"; bean:"+bean.getClass()+"; method:"+method.getName());
+            putLocalServices(modelClass, methodService);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
+    }
+    private void putLocalServices(Class<?> kls, SummerServiceBean<?> bean){
+        if(localServices.containsKey(kls)){
+            throw new RuntimeException("summer service "+kls.getName()+" installed;");
+        }
+        localServices.put(kls, bean);
     }
     private boolean isSummerStandardMethod(Method method){
         Class<?>[] parameterTypes = method.getParameterTypes();
