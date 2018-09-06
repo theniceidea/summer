@@ -1,17 +1,26 @@
 package org.summerframework.model;
 
 public abstract class AsyncSummer<R> extends Summer<R> {
-    protected transient int summerEntryNumber;
-    protected transient SceneStack summerStack;
-    protected transient AsyncSummerResult<R> asyncSummerResult;
+    private transient int summerEntryNumber;
+    private transient SceneStack summerStack;
+    private transient RuntimeException summerException;
+
+    public static <T> AsyncRootSummer<T> rootSummer(Class<Summer<T>> kls){
+        AsyncRootSummer<T> rootSummer = new AsyncRootSummer<>();
+        Summer<T> tSummer = rootSummer.instanceWithContext(kls);
+        rootSummer.setSummer(tSummer);
+        return rootSummer;
+    }
 
     protected void reentry(){
         this.sum();
     }
     private void reentryParent(){
-        if(this.summerParent instanceof AsyncSummer) {
-            ((AsyncSummer)this.summerParent).reentry();
-        }
+        checkParentSummer();
+        ((AsyncSummer)this.getSummerParent()).reentry();
+    }
+    private void checkParentSummer(){
+        if(this.getSummerParent() instanceof AsyncSummer) { return; }
         throw new RuntimeException("summerParent is not instanceof AsyncSummer");
     }
     public void retun(){
@@ -28,8 +37,11 @@ public abstract class AsyncSummer<R> extends Summer<R> {
         }else{
             exception = new SummerWrapperException(re);
         }
-        if(null == this.summerParent) throw exception;
-        this.summerParent.summerException = exception;
+        if(!(this.getSummerParent() instanceof AsyncSummer)) {
+            throw new RuntimeException("summerParent is not instanceof AsyncSummer");
+        }
+        checkParentSummer();
+        ((AsyncSummer)this.getSummerParent()).summerException = exception;
         reentryParent();
     }
 
@@ -58,10 +70,6 @@ public abstract class AsyncSummer<R> extends Summer<R> {
 
     public <E extends AsyncSummer> E b(Class<E> cls){
         return this.instanceWithContext(cls);
-    }
-    protected void bindContext(AsyncSummer summer){
-        summer.summerContext = this.summerContext;
-        summer.summerParent = this;
     }
 
     public int getSummerEntryNumber() {

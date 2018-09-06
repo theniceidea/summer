@@ -1,23 +1,21 @@
 package org.summerframework.model;
 
-public class AsyncRootSummer<T> extends AsyncSummer<T>{
+public final class AsyncRootSummer<T> extends AsyncSummer<T>{
 
     private AsyncSummerResult<T> asyncSummerResult;
     private Summer<T> summer;
 
-    public AsyncRootSummer(Summer<T> summer){
-        this.summer = summer;
-        this.bindContext(summer);
+    protected AsyncRootSummer(){
     }
 
     @Override
     protected void reentry() {
-        this.asyncSummerResult.accept(this.summer.getSummerResult(), null);
+        throw new RuntimeException(this.getClass().getName() + "这个类不允许执行reentry");
     }
 
-    public void sum(AsyncSummerResult<T> result){
-        this.asyncSummerResult = result;
-        this.summer.sum();
+    @Override
+    public T sum(){
+        throw new RuntimeException(this.getClass().getName() + "这个类不允许执行sum");
     }
 
     @Override
@@ -28,5 +26,13 @@ public class AsyncRootSummer<T> extends AsyncSummer<T>{
     @Override
     public void fireException(Exception re) {
         this.asyncSummerResult.accept(null, re);
+    }
+
+    public Summer<T> getSummer() {
+        return summer;
+    }
+
+    protected void setSummer(Summer<T> summer) {
+        this.summer = summer;
     }
 }
