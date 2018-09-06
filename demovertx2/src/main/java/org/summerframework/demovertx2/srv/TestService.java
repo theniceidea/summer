@@ -2,7 +2,9 @@ package org.summerframework.demovertx2.srv;
 
 import com.alibaba.fastjson.JSON;
 import org.summerframework.demovertx2.model.TestModel;
+import org.summerframework.model.AsyncSummer;
 import org.summerframework.model.RemoteServiceSummer;
+import org.summerframework.model.RootSummer;
 import org.summerframework.model.SummerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -35,7 +37,11 @@ public class TestService implements ApplicationRunner{
 //        System.out.println(JSON.toJSONString(testModel));
 //        GetRegistedSummerModels.sum().forEach(System.out::println);
 
-        TestModel testModel = new TestModel();
-        testModel.sum();
+        RootSummer<String> rootSummer = AsyncSummer.rootSummer(TestModel.class);
+        rootSummer.sum(s->{
+            System.out.println("============================++++++++");
+            System.out.println(s);
+            System.out.println("============================++++++++");
+        });
     }
 }

@@ -5,11 +5,12 @@ import org.springframework.asm.ClassReader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.type.classreading.SimpleMetadataReaderFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.util.SystemPropertyUtils;
+import org.summerframework.model.AsyncSummer;
+import org.summerframework.model.RootSummer;
 import org.summerframework.model.Summer;
 import org.summerframework.model.SummerServiceBean;
 
@@ -27,18 +28,20 @@ public class ClassRewriter {
 
     public static void rewrite(String ... scanSummerPackages){
         ClassRewriter classRewriter = new ClassRewriter();
-        List<String> summers = classRewriter.scanSummers(scanSummerPackages);
+        List<ScanSummerItem> summers = classRewriter.scanSummers(scanSummerPackages);
         summers.forEach(classRewriter::rewriteClass);
     }
 
-    private void rewriteClass(String kls) {
+    private void rewriteClass(ScanSummerItem scanSummerItem) {
         try {
-            rewriteClass_(kls);
+            rewriteClass_(scanSummerItem);
         } catch (NotFoundException | CannotCompileException e) {
             throw new RuntimeException(e);
         }
     }
-    private void rewriteClass_(String kls) throws NotFoundException, CannotCompileException {
+    private void rewriteClass_(ScanSummerItem scanSummerItem) throws NotFoundException, CannotCompileException {
+
+        String kls = scanSummerItem.getClassName();
 
         ClassPool classPool = ClassPool.getDefault();
         CtClass summerClass = classPool.get(kls);
@@ -49,7 +52,11 @@ public class ClassRewriter {
         CtField field = CtField.make(code, subClass);
         subClass.addField(field);
 
-        code = "public Object sum(){ try{SERVICE.sum(this);}catch(RuntimeException e){ if(null==this.summerStack) {throw e;}else{ this.fireException(e); } } return this.getSummerResult();}";
+        if(scanSummerItem.isAsync()) {
+            code = "public Object sum(){ try{SERVICE.sum(this);}catch(RuntimeException e){ this.fireException(e); } return null;}";
+        }else{
+            code = "public Object sum(){ SERVICE.sum(this); return this.getSummerResult(); }";
+        }
 //        code = "public Object sum(){ return this.getSummerResult();}";
         CtMethod method = CtMethod.make(code, subClass);
 
@@ -90,7 +97,7 @@ public class ClassRewriter {
         if(StringUtils.isEmpty(resourcePath)) return "";
         return resourcePath.replace('/', '.');
     }
-    private List<String> scanSummers(String ... scanSummerPackages){
+    private List<ScanSummerItem> scanSummers(String ... scanSummerPackages){
         List<String> pkgList = new ArrayList<>(Arrays.asList(scanSummerPackages));
         if(pkgList.size() <= 0) pkgList.add("");
 
@@ -103,6 +110,9 @@ public class ClassRewriter {
             });
         });
 
+        Set<String> asyncs = new HashSet<>();
+        asyncs.add(AsyncSummer.class.getName());
+
         Set<String> parentClasses = new HashSet<>();
         parentClasses.add(Summer.class.getName());
         while(parentClasses.size()>0){
@@ -111,14 +121,50 @@ public class ClassRewriter {
             Set<String> subClasses = classMap.entrySet()
                 .stream()
                 .filter(entry -> finalParentClasses.contains(entry.getValue()))
-                .map(Map.Entry::getKey)
+                .map(entry->{
+                    if(asyncs.contains(entry.getValue())){
+                        asyncs.add(entry.getKey());
+                    }
+                    return entry.getKey();
+                })
                 .collect(Collectors.toSet());
             if(!CollectionUtils.isEmpty(subClasses)) {
                 classes.addAll(subClasses);
             }
-
             parentClasses = subClasses;
         }
-        return classes;
+        List<ScanSummerItem> collect = classes
+            .stream()
+            .filter(s-> !AsyncSummer.class.getName().equals(s) )
+            .filter(s-> !RootSummer.class.getName().equals(s) )
+            .map(s -> {
+                ScanSummerItem item = new ScanSummerItem();
+                item.setClassName(s);
+                item.setAsync(asyncs.contains(s));
+                return item;
+            })
+            .collect(Collectors.toList());
+        return collect;
+    }
+
+    private static class ScanSummerItem{
+        private boolean async;
+        private String className;
+
+        public boolean isAsync() {
+            return async;
+        }
+
+        public void setAsync(boolean async) {
+            this.async = async;
+        }
+
+        public String getClassName() {
+            return className;
+        }
+
+        public void setClassName(String className) {
+            this.className = className;
+        }
     }
 }

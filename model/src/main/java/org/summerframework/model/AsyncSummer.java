@@ -5,8 +5,8 @@ public abstract class AsyncSummer<R> extends Summer<R> {
     private transient SceneStack summerStack;
     private transient RuntimeException summerException;
 
-    public static <T> AsyncRootSummer<T> rootSummer(Class<Summer<T>> kls){
-        AsyncRootSummer<T> rootSummer = new AsyncRootSummer<>();
+    public static <T, K extends Summer<T>> RootSummer<T> rootSummer(Class<K> kls){
+        RootSummer<T> rootSummer = new RootSummer<>();
         Summer<T> tSummer = rootSummer.instanceWithContext(kls);
         rootSummer.setSummer(tSummer);
         return rootSummer;
