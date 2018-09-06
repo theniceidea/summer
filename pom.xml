@@ -16,10 +16,6 @@
     <modules>
         <module>model</module>
         <module>core</module>
-        <module>springproxyvertx</module>
-        <module>demo</module>
-        <module>restrpcmodule</module>
-        <module>demovertx</module>
         <module>demovertx2</module>
     </modules>
 
@@ -34,32 +30,12 @@
         <dependencies>
             <dependency>
                 <groupId>org.summerframework</groupId>
-                <artifactId>summer-restrpcdemomodel</artifactId>
-                <version>summer-version-1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.summerframework</groupId>
-                <artifactId>summer-restrpcmodel</artifactId>
-                <version>summer-version-1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.summerframework</groupId>
-                <artifactId>summer-restrpc</artifactId>
-                <version>summer-version-1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.summerframework</groupId>
                 <artifactId>summer-model</artifactId>
                 <version>summer-version-1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.summerframework</groupId>
                 <artifactId>summer-core</artifactId>
-                <version>summer-version-1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.summerframework</groupId>
-                <artifactId>summer-springproxyvertx</artifactId>
                 <version>summer-version-1.0.0</version>
             </dependency>
             <dependency>
