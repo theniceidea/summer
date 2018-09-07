@@ -20,7 +20,12 @@ public class MethodService implements SummerServiceBean {
         try {
             this.method.invoke(target, summer);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            Throwable cause = e.getCause();
+            if(null != cause && cause instanceof RuntimeException){
+                throw (RuntimeException)cause;
+            }else {
+                throw new RuntimeException(e.getMessage(), e);
+            }
         }
     }
 }
