@@ -1,6 +1,6 @@
 package org.summerframework.model;
 
-public abstract class Summer<R> {
+public abstract class Summer<R> implements SkipRewrite {
     private transient Summer summerParent;
     private transient R summerResult;
 

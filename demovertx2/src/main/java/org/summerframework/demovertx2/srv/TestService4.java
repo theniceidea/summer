@@ -28,9 +28,6 @@ public class TestService4 extends SceneStack{
         if (model.entry(0)) {
             stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
         }else if (model.entry(100)) {
-            System.out.println("+++++++++++++++++++++++++++++++++++");
-            System.out.println(stack.redisGet.getSummerResult());
-            System.out.println("+++++++++++++++++++++++++++++++++++");
             model.retun(stack.redisGet.getSummerResult());
         }
     }

@@ -1,6 +1,6 @@
 package org.summerframework.model;
 
-public abstract class AsyncSummer<R> extends Summer<R> {
+public abstract class AsyncSummer<R> extends Summer<R> implements SkipRewrite {
     private transient int summerEntryNumber;
     private transient SceneStack summerStack;
     private transient RuntimeException summerException;
@@ -74,5 +74,9 @@ public abstract class AsyncSummer<R> extends Summer<R> {
 
     public int getSummerEntryNumber() {
         return summerEntryNumber;
+    }
+
+    public RuntimeException getSummerException() {
+        return summerException;
     }
 }

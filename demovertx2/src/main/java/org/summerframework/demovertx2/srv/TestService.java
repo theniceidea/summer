@@ -38,9 +38,15 @@ public class TestService implements ApplicationRunner{
 //        GetRegistedSummerModels.sum().forEach(System.out::println);
 
         RootSummer<String> rootSummer = AsyncSummer.rootSummer(TestModel.class);
-        rootSummer.sum(s->{
+        rootSummer.sum(result->{
+
             System.out.println("============================++++++++");
-            System.out.println(s);
+            if(null != result.getException()){
+                result.getException().printStackTrace();
+                System.out.println("exception");
+            }else {
+                System.out.println(result.getResult());
+            }
             System.out.println("============================++++++++");
         });
     }

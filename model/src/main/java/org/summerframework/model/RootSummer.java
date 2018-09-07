@@ -2,9 +2,9 @@ package org.summerframework.model;
 
 import java.util.function.Consumer;
 
-public final class RootSummer<T> extends AsyncSummer<T>{
+public final class RootSummer<T> extends AsyncSummer<T> implements SkipRewrite{
 
-    private Consumer<T> consumer;
+    private Consumer<AsyncSummerResult<T>> consumer;
     private Summer<T> summer;
 
     protected RootSummer(){
@@ -12,9 +12,13 @@ public final class RootSummer<T> extends AsyncSummer<T>{
 
     @Override
     protected void reentry() {
-        this.consumer.accept(this.summer.getSummerResult());
+        AsyncSummerResult<T> result = new AsyncSummerResult<>();
+        result.setResult(this.summer.getSummerResult());
+        result.setException(this.getSummerException());
+
+        this.consumer.accept(result);
     }
-    public void sum(Consumer<T> consumer){
+    public void sum(Consumer<AsyncSummerResult<T>> consumer){
         this.consumer = consumer;
         this.summer.sum();
     }

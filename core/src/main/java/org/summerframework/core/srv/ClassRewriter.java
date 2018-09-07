@@ -9,27 +9,28 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.util.SystemPropertyUtils;
-import org.summerframework.model.AsyncSummer;
-import org.summerframework.model.RootSummer;
-import org.summerframework.model.Summer;
-import org.summerframework.model.SummerServiceBean;
+import org.summerframework.model.*;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
 public class ClassRewriter {
+    private static Logger logger = Logger.getLogger(ClassRewriter.class.getName());
 
     protected static HashSet<Class<?>> SummerModelClasses = new HashSet<>();
 
     public static void rewrite(String ... scanSummerPackages){
         ClassRewriter classRewriter = new ClassRewriter();
         List<ScanSummerItem> summers = classRewriter.scanSummers(scanSummerPackages);
+        logger.info("======rewrite summer=================================================");
         summers.forEach(classRewriter::rewriteClass);
+        logger.info("======rewrite summer=================================================");
     }
 
     private void rewriteClass(ScanSummerItem scanSummerItem) {
@@ -45,12 +46,18 @@ public class ClassRewriter {
 
         ClassPool classPool = ClassPool.getDefault();
         CtClass summerClass = classPool.get(kls);
-        CtClass subClass = summerClass;
-
+        CtClass[] interfaces = summerClass.getInterfaces();
+        for(CtClass face : interfaces){
+            if(SkipRewrite.class.getName().equals(face.getName())) {
+                logger.info("rewrite summer class:"+summerClass.getName()+"; skiped");
+                return;
+            }
+        }
+        logger.info("rewrite summer class:"+summerClass.getName()+";");
 
         String code = "private static " + SummerServiceBean.class.getName() + " SERVICE = "+UnInstallSummerServiceBean.class.getName()+".Instance;";
-        CtField field = CtField.make(code, subClass);
-        subClass.addField(field);
+        CtField field = CtField.make(code, summerClass);
+        summerClass.addField(field);
 
         if(scanSummerItem.isAsync()) {
             code = "public Object sum(){ try{SERVICE.sum(this);}catch(RuntimeException e){ this.fireException(e); } return null;}";
@@ -58,18 +65,18 @@ public class ClassRewriter {
             code = "public Object sum(){ SERVICE.sum(this); return this.getSummerResult(); }";
         }
 //        code = "public Object sum(){ return this.getSummerResult();}";
-        CtMethod method = CtMethod.make(code, subClass);
+        CtMethod method = CtMethod.make(code, summerClass);
 
         try {
-            CtMethod sum = subClass.getDeclaredMethod("sum", new CtClass[]{});
+            CtMethod sum = summerClass.getDeclaredMethod("sum", new CtClass[]{});
             if(nonNull(sum)){
                 throw new RuntimeException("Summer class 的子类 不允许Override sum() 方法, 当前类:"+kls);
             }
         }catch (NotFoundException e){ }
 
-        subClass.addMethod(method);
+        summerClass.addMethod(method);
 
-        SummerModelClasses.add(subClass.toClass());
+        SummerModelClasses.add(summerClass.toClass());
     }
     private void scanPackageClass(String basePackage, Consumer<ClassMeta> consumer) {
         try {
@@ -135,8 +142,6 @@ public class ClassRewriter {
         }
         List<ScanSummerItem> collect = classes
             .stream()
-            .filter(s-> !AsyncSummer.class.getName().equals(s) )
-            .filter(s-> !RootSummer.class.getName().equals(s) )
             .map(s -> {
                 ScanSummerItem item = new ScanSummerItem();
                 item.setClassName(s);
