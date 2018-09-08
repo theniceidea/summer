@@ -59,7 +59,10 @@ public abstract class AsyncSummer<R> extends Summer<R> implements SkipRewrite {
         return (T) this.summerStack;
     }
 
-    public boolean entry(int number){
+    public int entry() {
+        return summerEntryNumber;
+    }
+    public boolean entryIs(int number){
         return this.summerEntryNumber == number;
     }
 
@@ -70,10 +73,6 @@ public abstract class AsyncSummer<R> extends Summer<R> implements SkipRewrite {
 
     public <E extends AsyncSummer> E b(Class<E> cls){
         return this.instanceWithContext(cls);
-    }
-
-    public int getSummerEntryNumber() {
-        return summerEntryNumber;
     }
 
     public RuntimeException getSummerException() {

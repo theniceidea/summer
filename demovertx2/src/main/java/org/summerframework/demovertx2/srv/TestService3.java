@@ -29,9 +29,9 @@ public class TestService3 {
     public void task2(TestModel model, TestModelStack stack){
         try {
             stack = model.recovery(TestModelStack.class);
-            if (model.entry(0)) {
+            if (model.entryIs(0)) {
                 stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
-            } else if (model.entry(100)) {
+            } else if (model.entryIs(100)) {
                 System.out.println("===================================");
                 System.out.println(stack.redisGet.getSummerResult());
                 System.out.println("===================================");

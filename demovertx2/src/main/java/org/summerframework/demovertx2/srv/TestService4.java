@@ -2,7 +2,6 @@ package org.summerframework.demovertx2.srv;
 
 import io.vertx.redis.RedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.session.SessionProperties;
 import org.springframework.stereotype.Service;
 import org.summerframework.demovertx2.model.RedisGet;
 import org.summerframework.demovertx2.model.TestModel;
@@ -28,9 +27,9 @@ public class TestService4 extends SceneStack{
 //    @SummerService(false)
     public void task2(TestModel model){
         TestService4 stack = model.recovery(TestService4.class);
-        if (model.entry(0)) {
+        if (model.entryIs(0)) {
             stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
-        }else if (model.entry(100)) {
+        }else if (model.entryIs(100)) {
             model.retun(stack.redisGet.getSummerResult());
         }
     }
