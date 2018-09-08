@@ -8,6 +8,7 @@ import org.summerframework.demovertx2.model.TestModel;
 import org.summerframework.model.SceneStack;
 import org.summerframework.model.SummerService;
 import org.summerframework.model.SkipReturnCheck;
+import org.summerframework.model.Task;
 
 @Service
 @SummerService
@@ -19,10 +20,15 @@ public class TestService4 extends SceneStack{
     private RedisGet redisGet;
 
     @SkipReturnCheck
+    public void task(Task task){
+        task.getSummer().sum();
+    }
+
+    @SkipReturnCheck
     public void redisGet(RedisGet m){
         //create Hander
-//        redisClient.get(m.getKey(), r -> m.retun(r.succeeded() ? r.result() : null));
-        redisClient.get(m.getKey(), r -> m.fireException(new RuntimeException("uuuuuuuuuu")));
+        redisClient.get(m.getKey(), r -> m.retun(r.succeeded() ? r.result() : null));
+//        redisClient.get(m.getKey(), r -> m.fireException(new RuntimeException("uuuuuuuuuu")));
     }
 //    @SummerService(false)
     public void task2(TestModel model){

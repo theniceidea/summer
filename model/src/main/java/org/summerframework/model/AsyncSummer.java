@@ -13,7 +13,7 @@ public abstract class AsyncSummer<R> extends Summer<R> implements SkipRewrite {
     }
 
     protected void reentry(){
-        this.sum();
+        Task.sum(this);
     }
     private void reentryParent(){
         checkParentSummer();
@@ -32,13 +32,12 @@ public abstract class AsyncSummer<R> extends Summer<R> implements SkipRewrite {
     }
     public void fireException(Exception re){
         RuntimeException exception;
-        if(re instanceof RuntimeException){
+        if(!(this.getSummerParent() instanceof AsyncSummer)) {
+             exception = new RuntimeException("summerParent is not instanceof AsyncSummer");
+        }else if(re instanceof RuntimeException){
             exception = (RuntimeException) re;
         }else{
             exception = new SummerWrapperException(re);
-        }
-        if(!(this.getSummerParent() instanceof AsyncSummer)) {
-            throw new RuntimeException("summerParent is not instanceof AsyncSummer");
         }
         checkParentSummer();
         ((AsyncSummer)this.getSummerParent()).summerException = exception;
