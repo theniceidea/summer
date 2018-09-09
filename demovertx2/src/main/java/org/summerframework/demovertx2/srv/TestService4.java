@@ -1,5 +1,7 @@
 package org.summerframework.demovertx2.srv;
 
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import io.vertx.redis.RedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,7 +9,6 @@ import org.summerframework.demovertx2.model.RedisGet;
 import org.summerframework.demovertx2.model.TestModel;
 import org.summerframework.model.SceneStack;
 import org.summerframework.model.SummerService;
-import org.summerframework.model.SkipReturnCheck;
 import org.summerframework.model.Task;
 
 @Service
@@ -19,12 +20,16 @@ public class TestService4 extends SceneStack{
     private RedisClient redisClient;
     private RedisGet redisGet;
 
-    @SkipReturnCheck
+    @Autowired
+    private Vertx vertx;
+
     public void task(Task task){
-        task.getSummer().sum();
+        vertx.runOnContext(aVoid -> {
+            System.out.println("===========thread-task:"+Thread.currentThread().getId());
+            task.getSummer().sum();
+        });
     }
 
-    @SkipReturnCheck
     public void redisGet(RedisGet m){
         //create Hander
         redisClient.get(m.getKey(), r -> m.retun(r.succeeded() ? r.result() : null));
@@ -34,8 +39,10 @@ public class TestService4 extends SceneStack{
     public void task2(TestModel model){
         TestService4 stack = model.recovery(TestService4.class);
         if (model.entryIs(0)) {
+            System.out.println("===========thread1:"+Thread.currentThread().getId());
             stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
         }else if (model.entryIs(100)) {
+            System.out.println("===========thread2:"+Thread.currentThread().getId());
             model.retun(stack.redisGet.getSummerResult());
         }
     }

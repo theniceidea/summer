@@ -1,6 +1,8 @@
 package org.summerframework.demovertx2.srv;
 
 import com.alibaba.fastjson.JSON;
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import org.summerframework.demovertx2.model.TestModel;
 import org.summerframework.model.AsyncSummer;
 import org.summerframework.model.RemoteServiceSummer;
@@ -17,6 +19,9 @@ public class TestService implements ApplicationRunner{
 
     @Autowired
     private TestService testService;
+
+    @Autowired
+    private Vertx vertx;
 
     @SummerService(false)
     public void task(TestModel model){
@@ -37,17 +42,19 @@ public class TestService implements ApplicationRunner{
 //        System.out.println(JSON.toJSONString(testModel));
 //        GetRegistedSummerModels.sum().forEach(System.out::println);
 
-        RootSummer<String> rootSummer = AsyncSummer.rootSummer(TestModel.class);
-        rootSummer.sum(result->{
+        for(int i=0; i<1; i++) {
+            RootSummer<String> rootSummer = AsyncSummer.rootSummer(TestModel.class);
+            vertx.runOnContext(aVoid -> rootSummer.sum(result -> {
 
-            System.out.println("============================++++++++");
-            if(null != result.getException()){
-                result.getException().printStackTrace();
-                System.out.println("exception");
-            }else {
-                System.out.println(result.getResult());
-            }
-            System.out.println("============================++++++++");
-        });
+                System.out.println("============================++++++++" + Thread.currentThread().getId());
+                if (null != result.getException()) {
+                    result.getException().printStackTrace();
+                    System.out.println("exception");
+                } else {
+                    System.out.println(result.getResult());
+                }
+                System.out.println("============================++++++++" + Thread.currentThread().getId());
+            }));
+        }
     }
 }

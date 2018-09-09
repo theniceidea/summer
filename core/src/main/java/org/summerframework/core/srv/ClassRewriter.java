@@ -55,17 +55,18 @@ public class ClassRewriter {
         }
         logger.info("rewrite summer class:"+summerClass.getName()+";");
 
-        String code = "private static " + SummerServiceBean.class.getName() + " SERVICE = "+UnInstallSummerServiceBean.class.getName()+".Instance;";
-        CtField field = CtField.make(code, summerClass);
+        String codeServiceField = "private static " + SummerServiceBean.class.getName() + " SERVICE = "+UnInstallSummerServiceBean.class.getName()+".Instance;";
+        CtField field = CtField.make(codeServiceField, summerClass);
         summerClass.addField(field);
 
+        String codeSumMethod;
         if(scanSummerItem.isAsync()) {
-            code = "public Object sum(){ try{SERVICE.sum(this);}catch(RuntimeException e){ this.fireException(e); } return null;}";
+            codeSumMethod = "public Object sum(){ try{ SERVICE.sum(this); }catch(RuntimeException e){ this.fireException(e); } return null;}";
         }else{
-            code = "public Object sum(){ SERVICE.sum(this); return this.getSummerResult(); }";
+            codeSumMethod = "public Object sum(){ SERVICE.sum(this); return this.getSummerResult(); }";
         }
-//        code = "public Object sum(){ return this.getSummerResult();}";
-        CtMethod method = CtMethod.make(code, summerClass);
+//        codeSumMethod = "public Object sum(){ return this.getSummerResult();}";
+        CtMethod method = CtMethod.make(codeSumMethod, summerClass);
 
         try {
             CtMethod sum = summerClass.getDeclaredMethod("sum", new CtClass[]{});
