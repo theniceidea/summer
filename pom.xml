@@ -16,6 +16,7 @@
     <modules>
         <module>model</module>
         <module>core</module>
+        <module>vertx</module>
         <module>demovertx2</module>
     </modules>
 
@@ -36,6 +37,11 @@
             <dependency>
                 <groupId>org.summerframework</groupId>
                 <artifactId>summer-core</artifactId>
+                <version>summer-version-1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.summerframework</groupId>
+                <artifactId>summer-vertx</artifactId>
                 <version>summer-version-1.0.0</version>
             </dependency>
             <dependency>
