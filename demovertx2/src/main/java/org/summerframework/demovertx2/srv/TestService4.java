@@ -1,6 +1,5 @@
 package org.summerframework.demovertx2.srv;
 
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.redis.RedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +23,7 @@ public class TestService4 extends SceneStack{
     private Vertx vertx;
 
     public void task(Task task){
-        vertx.runOnContext(aVoid -> {
-            System.out.println("===========thread-task:"+Thread.currentThread().getId());
-            task.getSummer().sum();
-        });
+        vertx.runOnContext(aVoid -> task.getSummer().sum());
     }
 
     public void redisGet(RedisGet m){
@@ -39,10 +35,8 @@ public class TestService4 extends SceneStack{
     public void task2(TestModel model){
         TestService4 stack = model.recovery(TestService4.class);
         if (model.entryIs(0)) {
-            System.out.println("===========thread1:"+Thread.currentThread().getId());
             stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
         }else if (model.entryIs(100)) {
-            System.out.println("===========thread2:"+Thread.currentThread().getId());
             model.retun(stack.redisGet.getSummerResult());
         }
     }

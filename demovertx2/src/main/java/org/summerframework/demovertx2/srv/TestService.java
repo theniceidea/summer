@@ -46,14 +46,11 @@ public class TestService implements ApplicationRunner{
             RootSummer<String> rootSummer = AsyncSummer.rootSummer(TestModel.class);
             vertx.runOnContext(aVoid -> rootSummer.sum(result -> {
 
-                System.out.println("============================++++++++" + Thread.currentThread().getId());
                 if (null != result.getException()) {
                     result.getException().printStackTrace();
-                    System.out.println("exception");
                 } else {
                     System.out.println(result.getResult());
                 }
-                System.out.println("============================++++++++" + Thread.currentThread().getId());
             }));
         }
     }
