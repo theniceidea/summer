@@ -21,6 +21,7 @@ public class TestService4 extends SceneStack{
 
     @Autowired
     private Vertx vertx;
+    private int i;
 
     public void task(Task task){
         vertx.runOnContext(aVoid -> task.getSummer().sum());
@@ -35,7 +36,8 @@ public class TestService4 extends SceneStack{
     public void task2(TestModel model){
         TestService4 stack = model.recovery(TestService4.class);
         if (model.entryIs(0)) {
-            stack.redisGet = model.a(100).b(RedisGet.class).c(redisKey);
+            i++;
+            stack.redisGet = model.a(i>=99?100:0).b(RedisGet.class).c(redisKey);
         }else if (model.entryIs(100)) {
             model.retun(stack.redisGet.getSummerResult());
         }
