@@ -10,6 +10,8 @@ import org.summerframework.model.SceneStack;
 import org.summerframework.model.SummerService;
 import org.summerframework.model.Task;
 
+import java.util.function.Consumer;
+
 @Service
 @SummerService
 public class TestService4 extends SceneStack{
@@ -41,6 +43,19 @@ public class TestService4 extends SceneStack{
         }else if (model.entryIs(100)) {
             model.retun(stack.redisGet.getSummerResult());
         }
+    }
+
+    @SummerService(false)
+    public void task3(TestModel model){
+        model.task(o -> {
+
+        });
+        model.task(o->{
+
+        });
+        model.loop(o->{
+
+        });
     }
 
 }
