@@ -90,6 +90,7 @@ class ServiceInstall implements ApplicationContextAware{
             logger.info("install summer class:"+modelClass.getName()+"; bean:"+bean.getClass()+"; method:"+method.getName());
             putLocalServices(modelClass, methodService);
         } catch (NoSuchFieldException | IllegalAccessException e) {
+            logger.warning("install summer exception, msg:"+e.getMessage()+", exception class:"+e.getClass().getName()+", summer classs:"+modelClass.getName()+", bean: "+bean.getClass()+", method:"+method.getName());
             throw new RuntimeException(e);
         }
 

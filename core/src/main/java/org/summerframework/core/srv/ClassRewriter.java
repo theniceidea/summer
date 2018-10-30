@@ -107,6 +107,7 @@ public class ClassRewriter {
     }
     private List<ScanSummerItem> scanSummers(String ... scanSummerPackages){
         List<String> pkgList = new ArrayList<>(Arrays.asList(scanSummerPackages));
+        pkgList.add("org.summerframework");
         if(pkgList.size() <= 0) pkgList.add("");
 
         HashMap<String, String> classMap = new HashMap<>();
