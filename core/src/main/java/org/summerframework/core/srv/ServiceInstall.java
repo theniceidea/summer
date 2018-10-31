@@ -70,6 +70,7 @@ class ServiceInstall implements ApplicationContextAware{
     private void install(Class<? extends Summer> modelClass, Class<?> beanClass, Object bean, Method method) {
         try {
             if(Summer.class.equals(modelClass)) return;
+            logger.info("install summer class:"+modelClass.getName()+"; classLoader:"+modelClass.getClassLoader());
             Field service = modelClass.getDeclaredField("SERVICE");
             service.setAccessible(true);
             if(SummerServiceBean.class.isAssignableFrom(beanClass) && "sum".equals(method.getName())){

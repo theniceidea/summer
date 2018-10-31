@@ -13,6 +13,7 @@ import org.summerframework.model.*;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.security.ProtectionDomain;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -53,7 +54,6 @@ public class ClassRewriter {
                 return;
             }
         }
-        logger.info("rewrite summer class:"+summerClass.getName()+";");
 
         String codeServiceField = "private static " + SummerServiceBean.class.getName() + " SERVICE = "+UnInstallSummerServiceBean.class.getName()+".Instance;";
         CtField field = CtField.make(codeServiceField, summerClass);
@@ -77,7 +77,11 @@ public class ClassRewriter {
 
         summerClass.addMethod(method);
 
-        SummerModelClasses.add(summerClass.toClass());
+        ClassLoader classLoader = ClassRewriter.class.getClassLoader();
+        ProtectionDomain protectionDomain = ClassRewriter.class.getProtectionDomain();
+        Class newCls = summerClass.toClass(classLoader, protectionDomain);
+        SummerModelClasses.add(newCls);
+        logger.info("rewrite summer class:"+summerClass.getName()+"; classLoader:"+classLoader);
     }
     private void scanPackageClass(String basePackage, Consumer<ClassMeta> consumer) {
         try {
