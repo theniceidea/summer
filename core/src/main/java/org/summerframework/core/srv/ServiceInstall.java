@@ -20,7 +20,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Component
-class ServiceInstall implements ApplicationContextAware{
+public class ServiceInstall implements ApplicationContextAware{
 
     private static Logger logger = Logger.getLogger(ServiceInstall.class.getName());
 
@@ -66,6 +66,25 @@ class ServiceInstall implements ApplicationContextAware{
             }
         }
         logger.info("======install summer=================================================");
+    }
+    public void installBean(Object bean){
+        Class<?> targetClass = AopUtils.getTargetClass(bean);
+        HashMap<Class<?>, Method> map = getAopMethodsMap(bean);
+
+        Method[] methods = targetClass.getMethods();
+        for(int j=0; j<methods.length; j++){
+            Method method = methods[j];
+            if(!isSummerStandardMethod(method)) continue;
+
+            SummerService summerService = method.getAnnotation(SummerService.class);
+            if(nonNull(summerService) && !summerService.value()) continue;
+            Class<?>[] types = method.getParameterTypes();
+            Method method1 = map.get(types[0]);
+            if(null == method1) continue;
+
+            install((Class<? extends Summer>) types[0], targetClass, bean, method1);
+        }
+
     }
     private void install(Class<? extends Summer> modelClass, Class<?> beanClass, Object bean, Method method) {
         try {
