@@ -44,7 +44,7 @@ class ServiceInstall implements ApplicationContextAware{
             Class<?> targetClass = AopUtils.getTargetClass(bean);
             if(targetClass.getName().contains("$$")) targetClass = targetClass.getSuperclass();
             SummerService annotation = targetClass.getAnnotation(SummerService.class);
-            if(!annotation.value()) continue;
+            if(null == annotation || !annotation.value()) continue;
 
             HashMap<Class<?>, Method> map = getAopMethodsMap(bean);
 
