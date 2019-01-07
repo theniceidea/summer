@@ -26,6 +26,13 @@ public class ClassRewriter {
 
     protected static HashSet<Class<?>> SummerModelClasses = new HashSet<>();
 
+    private static ClassPool CLASS_POOL = null;
+    static {
+        CLASS_POOL = ClassPool.getDefault();
+        ClassClassPath classClassPath = new ClassClassPath(ClassRewriter.class);
+        CLASS_POOL.insertClassPath(classClassPath);
+    }
+
     public static void rewrite(String ... scanSummerPackages){
         ClassRewriter classRewriter = new ClassRewriter();
         List<ScanSummerItem> summers = classRewriter.scanSummers(scanSummerPackages);
@@ -45,8 +52,8 @@ public class ClassRewriter {
 
         String kls = scanSummerItem.getClassName();
 
-        ClassPool classPool = ClassPool.getDefault();
-        CtClass summerClass = classPool.get(kls);
+
+        CtClass summerClass = CLASS_POOL.get(kls);
         CtClass[] interfaces = summerClass.getInterfaces();
         for(CtClass face : interfaces){
             if(SkipRewrite.class.getName().equals(face.getName())) {
